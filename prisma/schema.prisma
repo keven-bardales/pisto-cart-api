@@ -1,0 +1,237 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model GeneralStatus {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User[]
+}
+
+model User {
+  id              String        @id @default(uuid())
+  googleId        String        @unique
+  firstName       String
+  lastName        String
+  fullName        String
+  email           String
+  imageUrl        String
+  rolId           String
+  generalStatusId Int
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  customers       Customer[]
+  rol             UserRol       @relation(fields: [rolId], references: [id])
+  generalStatus   GeneralStatus @relation(fields: [generalStatusId], references: [id])
+  carts           Cart[]
+  CartOrder       CartOrder[]
+
+  @@index([fullName], name: "UserfullName")
+  @@index([rolId], name: "UserrolId")
+  @@index([generalStatusId], name: "UsergeneralStatusId")
+}
+
+model UserRol {
+  id    String @id @default(uuid())
+  name  String
+  users User[]
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  userId    String
+  firstName String
+  lastName  String
+  fullName  String
+  email     String
+  imageUrl  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId], name: "CustomeruserId")
+  @@index([fullName], name: "CustomerfullName")
+}
+
+model Product {
+  id                String           @id @default(uuid())
+  code              String           @unique
+  name              String
+  description       String
+  price             Decimal          @db.Decimal(10, 2)
+  cost              Decimal          @db.Decimal(10, 2)
+  imageUrl          String
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  stock             Int              @default(0)
+  productStateId    Int
+  productState      ProductStates    @relation(fields: [productStateId], references: [id])
+  productCategory   ProductCategory? @relation(fields: [productCategoryId], references: [id])
+  productCategoryId String?
+  carts             Cart[]
+  OrderDetail       OrderDetail[]
+  CartDetail        CartDetail[]
+
+  @@index([productCategoryId], name: "productCategoryId")
+  @@index([name], name: "name")
+  @@index([code], name: "code")
+}
+
+model ProductCategory {
+  id               String    @id @default(uuid())
+  categoryCode     String
+  name             String
+  categoryLevel    Int
+  parentCategoryId String?
+  description      String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  products         Product[]
+
+  @@index([parentCategoryId], name: "parentCategoryId")
+  @@index([categoryCode], name: "categoryCode")
+  @@index([name], name: "categoryname")
+  @@index([categoryLevel], name: "categoryLevel")
+}
+
+model ProductStates {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+}
+
+model Cart {
+  id               String       @id @default(uuid())
+  userId           String
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  user             User         @relation(fields: [userId], references: [id])
+  total            Decimal      @db.Decimal(10, 2)
+  subTotal         Decimal      @db.Decimal(10, 2)
+  subTotalDiscount Decimal      @db.Decimal(10, 2)
+  subTotalTax      Decimal      @db.Decimal(10, 2)
+  discount         Decimal      @db.Decimal(10, 2)
+  tax              Decimal      @db.Decimal(10, 2)
+  quantity         Int
+  CartDetail       CartDetail[]
+
+  Product          Product?        @relation(fields: [productId], references: [id])
+  productId        String?
+  ColorDiscounts   ColorDiscounts? @relation(fields: [colorDiscountsId], references: [id])
+  colorDiscountsId String?
+  CartStatus       CartStatus?     @relation(fields: [cartStatusId], references: [id])
+  cartStatusId     Int?
+}
+
+model CartDetail {
+  id              String         @id @default(uuid())
+  cartId          String
+  productId       String
+  colorDiscountId String
+  taxRateId       Int
+  quantity        Int
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  product         Product        @relation(fields: [productId], references: [id])
+  colorDiscount   ColorDiscounts @relation(fields: [colorDiscountId], references: [id])
+  Cart            Cart           @relation(fields: [cartId], references: [id])
+  taxRate         TaxRates       @relation(fields: [taxRateId], references: [id])
+
+  @@index([productId], name: "CartDetailproductId")
+}
+
+model CartStatus {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  carts     Cart[]
+}
+
+model CartOrder {
+  id               String          @id @default(uuid())
+  userId           String
+  paymentMethodId  String
+  quantity         Int
+  total            Decimal         @db.Decimal(10, 2)
+  subTotal         Decimal         @db.Decimal(10, 2)
+  subTotalDiscount Decimal         @db.Decimal(10, 2)
+  subTotalTax      Decimal         @db.Decimal(10, 2)
+  discount         Decimal         @db.Decimal(10, 2)
+  tax              Decimal         @db.Decimal(10, 2)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  user             User            @relation(fields: [userId], references: [id])
+  paymentMethod    PaymentMethods  @relation(fields: [paymentMethodId], references: [id])
+  OrderDetail      OrderDetail[]
+  ColorDiscounts   ColorDiscounts? @relation(fields: [colorDiscountsId], references: [id])
+  colorDiscountsId String?
+
+  @@index([userId], name: "CartOrderuserId")
+  @@index([paymentMethodId], name: "CartOrderpaymentMethodId")
+}
+
+model OrderDetail {
+  id                  String          @id @default(uuid())
+  orderId             String
+  productId           String
+  quantity            Int
+  price               Decimal         @db.Decimal(10, 2)
+  total               Decimal         @db.Decimal(10, 2)
+  discount            Decimal         @db.Decimal(10, 2)
+  tax                 Decimal         @db.Decimal(10, 2)
+  discountPerecentage Decimal         @db.Decimal(10, 2)
+  colorDiscountId     String
+  taxRateId           Int
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  product             Product         @relation(fields: [productId], references: [id])
+  order               CartOrder       @relation(fields: [orderId], references: [id])
+  colorDiscount       ColorDiscounts? @relation(fields: [colorDiscountId], references: [id])
+  taxRate             TaxRates?       @relation(fields: [taxRateId], references: [id])
+
+  @@index([orderId], name: "OrderDetailorderId")
+  @@index([productId], name: "OrderDetailproductId")
+}
+
+model ColorDiscounts {
+  id                  String        @id @default(uuid())
+  name                String
+  discountPerecentage Decimal       @db.Decimal(10, 2)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  CartOrder           CartOrder[]
+  Cart                Cart[]
+  OrderDetail         OrderDetail[]
+  CartDetail          CartDetail[]
+}
+
+model TaxRates {
+  id          Int           @id @default(autoincrement())
+  name        String
+  rate        Decimal       @db.Decimal(10, 2)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  CartDetail  CartDetail[]
+  OrderDetail OrderDetail[]
+}
+
+model PaymentMethods {
+  id        String      @id @default(uuid())
+  name      String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  CartOrder CartOrder[]
+}
