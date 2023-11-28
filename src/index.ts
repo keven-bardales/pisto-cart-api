@@ -1,6 +1,7 @@
-import { envs } from "./config/environment/envs";
-import { Server } from "./api/server";
-import { AppRoutes } from "./api/routes";
+import "module-alias/register";
+import { envs } from "@config/environment/envs";
+import { Server } from "@api/server";
+import { AppRoutes } from "@src/api/routes";
 
 (async () => {
   main();

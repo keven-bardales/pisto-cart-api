@@ -4,10 +4,19 @@
     "module": "NodeNext",                             
     "moduleResolution": "NodeNext", 
     "baseUrl": "src",
-    "outDir": "dist",
+    "outDir": "./dist",
     "sourceMap": true,                          
     "skipLibCheck": true  ,
-    "noImplicitAny": true,                             
+    "noImplicitAny": true,
+    "paths": {
+      "@src/*": ["*"],
+      "@api/*": ["api/*"],
+      "@data/*": ["data/*"],
+      "@config/*": ["config/*"],
+      "@domain/*": ["domain/*"],
+      "@infrastructure/*" : ["infrastructure/*"],
+    }                             
   },
   "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

@@ -1,6 +1,6 @@
-import { prisma } from "./../../data/index";
-import { UserDataSource } from "./../../domain/datasources/user.datasource";
-import { UserEntity } from "./../../domain/entities/user.entity";
+import { prisma } from "@data/index";
+import { UserDataSource } from "@domain/datasources/user.datasource";
+import { UserEntity } from "@domain/entities/user.entity";
 
 export class UserDataSourceImpl implements UserDataSource {
   async getAll(): Promise<UserEntity[]> {

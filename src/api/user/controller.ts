@@ -1,4 +1,4 @@
-import { UserRepository } from "domain/repositories/user.repository";
+import { UserRepository } from "@domain/repositories/user.repository";
 import { Request, Response } from "express";
 
 export class UserController {

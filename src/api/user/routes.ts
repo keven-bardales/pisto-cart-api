@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { UserController } from "./controller";
-import { UserDataSourceImpl } from "./../../infrastructure/datasource/user.datasource.impl";
-import { UserRepositoryImpl } from "./../../infrastructure/repositories/user.repository.impl";
+import { UserController } from "@api/user/controller";
+import { UserDataSourceImpl } from "@infrastructure/datasource/user.datasource.impl";
+import { UserRepositoryImpl } from "@infrastructure/repositories/user.repository.impl";
 
 export class UserRoutes {
   private static mainRoute = "/users";
