@@ -22,7 +22,8 @@ class UserDataSourceImpl {
             },
         });
         if (!user) {
-            return null;
+            //  TODO: Implementar un error personalizado
+            throw new Error(`Usuario con id ${id} no encontrado`);
         }
         return get_all_user_dto_1.GetAllUserDto.fromObject(user);
     }

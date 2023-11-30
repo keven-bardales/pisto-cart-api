@@ -27,7 +27,8 @@ export class UserDataSourceImpl implements UserDataSource {
     });
 
     if (!user) {
-      return null;
+      //  TODO: Implementar un error personalizado
+      throw new Error(`Usuario con id ${id} no encontrado`);
     }
 
     return GetAllUserDto.fromObject(user);
