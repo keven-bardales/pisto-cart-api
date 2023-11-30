@@ -15,7 +15,7 @@ model GeneralStatus {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  User      User[]
+  user      User[]
 }
 
 model User {
@@ -26,15 +26,16 @@ model User {
   fullName        String
   email           String
   imageUrl        String
+  password        String
   rolId           String
   generalStatusId Int
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
-  customers       Customer[]
   rol             UserRol       @relation(fields: [rolId], references: [id])
   generalStatus   GeneralStatus @relation(fields: [generalStatusId], references: [id])
   carts           Cart[]
-  CartOrder       CartOrder[]
+  cartOrders      CartOrder[]
+  customers       Customer[]
 
   @@index([fullName], name: "UserfullName")
   @@index([rolId], name: "UserrolId")
@@ -49,12 +50,12 @@ model UserRol {
 
 model Customer {
   id        String   @id @default(uuid())
-  userId    String
   firstName String
   lastName  String
   fullName  String
   email     String
   imageUrl  String
+  userId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id])
@@ -64,23 +65,22 @@ model Customer {
 }
 
 model Product {
-  id                String           @id @default(uuid())
-  code              String           @unique
+  id                String            @id @default(uuid())
+  code              String            @unique
   name              String
   description       String
-  price             Decimal          @db.Decimal(10, 2)
-  cost              Decimal          @db.Decimal(10, 2)
+  price             Decimal           @db.Decimal(10, 2)
+  cost              Decimal           @db.Decimal(10, 2)
+  stock             Int               @default(0)
   imageUrl          String
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-  stock             Int              @default(0)
+  productCategoryId String
   productStateId    Int
-  productState      ProductStates    @relation(fields: [productStateId], references: [id])
-  productCategory   ProductCategory? @relation(fields: [productCategoryId], references: [id])
-  productCategoryId String?
-  carts             Cart[]
-  OrderDetail       OrderDetail[]
-  CartDetail        CartDetail[]
+  updatedAt         DateTime          @updatedAt
+  createdAt         DateTime          @default(now())
+  productState      ProductState      @relation(fields: [productStateId], references: [id])
+  productCategory   ProductCategory   @relation(fields: [productCategoryId], references: [id])
+  orderDetails      CartOrderDetail[]
+  cartDetails       CartDetail[]
 
   @@index([productCategoryId], name: "productCategoryId")
   @@index([name], name: "name")
@@ -93,9 +93,9 @@ model ProductCategory {
   name             String
   categoryLevel    Int
   parentCategoryId String?
-  description      String
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
+  description      String
   products         Product[]
 
   @@index([parentCategoryId], name: "parentCategoryId")
@@ -104,7 +104,7 @@ model ProductCategory {
   @@index([categoryLevel], name: "categoryLevel")
 }
 
-model ProductStates {
+model ProductState {
   id        Int       @id @default(autoincrement())
   name      String
   createdAt DateTime  @default(now())
@@ -114,40 +114,34 @@ model ProductStates {
 
 model Cart {
   id               String       @id @default(uuid())
-  userId           String
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
-  user             User         @relation(fields: [userId], references: [id])
   total            Decimal      @db.Decimal(10, 2)
   subTotal         Decimal      @db.Decimal(10, 2)
   subTotalDiscount Decimal      @db.Decimal(10, 2)
   subTotalTax      Decimal      @db.Decimal(10, 2)
   discount         Decimal      @db.Decimal(10, 2)
   tax              Decimal      @db.Decimal(10, 2)
-  quantity         Int
-  CartDetail       CartDetail[]
-
-  Product          Product?        @relation(fields: [productId], references: [id])
-  productId        String?
-  ColorDiscounts   ColorDiscounts? @relation(fields: [colorDiscountsId], references: [id])
-  colorDiscountsId String?
-  CartStatus       CartStatus?     @relation(fields: [cartStatusId], references: [id])
-  cartStatusId     Int?
+  userId           String
+  cartStatusId     Int
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  user             User         @relation(fields: [userId], references: [id])
+  cartStatus       CartStatus   @relation(fields: [cartStatusId], references: [id])
+  cartDetail       CartDetail[]
 }
 
 model CartDetail {
-  id              String         @id @default(uuid())
-  cartId          String
-  productId       String
-  colorDiscountId String
-  taxRateId       Int
+  id              String        @id @default(uuid())
   quantity        Int
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
-  product         Product        @relation(fields: [productId], references: [id])
-  colorDiscount   ColorDiscounts @relation(fields: [colorDiscountId], references: [id])
-  Cart            Cart           @relation(fields: [cartId], references: [id])
-  taxRate         TaxRates       @relation(fields: [taxRateId], references: [id])
+  colorDiscountId String
+  productId       String
+  taxRateId       Int
+  cartId          String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  product         Product       @relation(fields: [productId], references: [id])
+  colorDiscount   ColorDiscount @relation(fields: [colorDiscountId], references: [id])
+  cart            Cart          @relation(fields: [cartId], references: [id])
+  taxRate         TaxRate       @relation(fields: [taxRateId], references: [id])
 
   @@index([productId], name: "CartDetailproductId")
 }
@@ -161,77 +155,73 @@ model CartStatus {
 }
 
 model CartOrder {
-  id               String          @id @default(uuid())
+  id               String            @id @default(uuid())
   userId           String
   paymentMethodId  String
   quantity         Int
-  total            Decimal         @db.Decimal(10, 2)
-  subTotal         Decimal         @db.Decimal(10, 2)
-  subTotalDiscount Decimal         @db.Decimal(10, 2)
-  subTotalTax      Decimal         @db.Decimal(10, 2)
-  discount         Decimal         @db.Decimal(10, 2)
-  tax              Decimal         @db.Decimal(10, 2)
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
-  user             User            @relation(fields: [userId], references: [id])
-  paymentMethod    PaymentMethods  @relation(fields: [paymentMethodId], references: [id])
-  OrderDetail      OrderDetail[]
-  ColorDiscounts   ColorDiscounts? @relation(fields: [colorDiscountsId], references: [id])
-  colorDiscountsId String?
+  total            Decimal           @db.Decimal(10, 2)
+  subTotal         Decimal           @db.Decimal(10, 2)
+  subTotalDiscount Decimal           @db.Decimal(10, 2)
+  subTotalTax      Decimal           @db.Decimal(10, 2)
+  discount         Decimal           @db.Decimal(10, 2)
+  tax              Decimal           @db.Decimal(10, 2)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  user             User              @relation(fields: [userId], references: [id])
+  paymentMethod    PaymentMethods    @relation(fields: [paymentMethodId], references: [id])
+  OrderDetail      CartOrderDetail[]
 
   @@index([userId], name: "CartOrderuserId")
   @@index([paymentMethodId], name: "CartOrderpaymentMethodId")
 }
 
-model OrderDetail {
-  id                  String          @id @default(uuid())
+model CartOrderDetail {
+  id                  String         @id @default(uuid())
   orderId             String
   productId           String
   quantity            Int
-  price               Decimal         @db.Decimal(10, 2)
-  total               Decimal         @db.Decimal(10, 2)
-  discount            Decimal         @db.Decimal(10, 2)
-  tax                 Decimal         @db.Decimal(10, 2)
-  discountPerecentage Decimal         @db.Decimal(10, 2)
+  price               Decimal        @db.Decimal(10, 2)
+  total               Decimal        @db.Decimal(10, 2)
+  discount            Decimal        @db.Decimal(10, 2)
+  tax                 Decimal        @db.Decimal(10, 2)
+  discountPerecentage Decimal        @db.Decimal(10, 2)
   colorDiscountId     String
   taxRateId           Int
-  createdAt           DateTime        @default(now())
-  updatedAt           DateTime        @updatedAt
-  product             Product         @relation(fields: [productId], references: [id])
-  order               CartOrder       @relation(fields: [orderId], references: [id])
-  colorDiscount       ColorDiscounts? @relation(fields: [colorDiscountId], references: [id])
-  taxRate             TaxRates?       @relation(fields: [taxRateId], references: [id])
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  product             Product        @relation(fields: [productId], references: [id])
+  order               CartOrder      @relation(fields: [orderId], references: [id])
+  colorDiscount       ColorDiscount? @relation(fields: [colorDiscountId], references: [id])
+  taxRate             TaxRate?       @relation(fields: [taxRateId], references: [id])
 
   @@index([orderId], name: "OrderDetailorderId")
   @@index([productId], name: "OrderDetailproductId")
 }
 
-model ColorDiscounts {
-  id                  String        @id @default(uuid())
+model ColorDiscount {
+  id                  String            @id @default(uuid())
   name                String
-  discountPerecentage Decimal       @db.Decimal(10, 2)
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
-  CartOrder           CartOrder[]
-  Cart                Cart[]
-  OrderDetail         OrderDetail[]
-  CartDetail          CartDetail[]
+  discountPerecentage Decimal           @db.Decimal(10, 2)
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  orderDetails        CartOrderDetail[]
+  cartDetails         CartDetail[]
 }
 
-model TaxRates {
-  id          Int           @id @default(autoincrement())
-  name        String
-  rate        Decimal       @db.Decimal(10, 2)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  CartDetail  CartDetail[]
-  OrderDetail OrderDetail[]
+model TaxRate {
+  id           Int               @id @default(autoincrement())
+  name         String
+  rate         Decimal           @db.Decimal(10, 2)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  cartDetails  CartDetail[]
+  orderDetails CartOrderDetail[]
 }
 
 model PaymentMethods {
-  id        String      @id @default(uuid())
-  name      String
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  CartOrder CartOrder[]
+  id         String      @id @default(uuid())
+  name       String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  cartOrders CartOrder[]
 }

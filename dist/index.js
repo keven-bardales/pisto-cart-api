@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("module-alias/register");
-const envs_1 = require("./config/environment/envs");
-const server_1 = require("./api/server");
+const envs_1 = require("@config/environment/envs");
+const server_1 = require("@api/server");
 const routes_1 = require("@src/api/routes");
 (async () => {
     main();

@@ -1,3 +1,5 @@
+import { UserRolEntity } from "@domain/entities/user-rol.entity";
+
 export class UserEntity {
   constructor(
     public id: string,
@@ -11,11 +13,11 @@ export class UserEntity {
     public generalStatusId: number,
     public createdAt: Date,
     public updatedAt: Date,
-    public customers: Customer[],
-    public rol: UserRol,
-    public generalStatus: GeneralStatus,
-    public carts: Cart[],
-    public cartOrders: CartOrder[]
+    public rol?: UserRolEntity,
+    public generalStatus?: GeneralStatus,
+    public carts?: Cart[],
+    public cartOrders?: CartOrder[],
+    public customers?: Customer[]
   ) {}
 
   static fromObject(object: any): UserEntity {
@@ -31,21 +33,17 @@ export class UserEntity {
       object.generalStatusId,
       object.createdAt,
       object.updatedAt,
-      object.customers,
-      object.rol,
-      object.generalStatus,
-      object.carts,
-      object.cartOrders
+      UserRolEntity.fromObject(object?.rol),
+      object?.generalStatus,
+      object?.carts,
+      object?.cartOrders,
+      object?.customers
     );
   }
 }
 
 class Customer {
   // Definir la clase Customer si es necesario
-}
-
-class UserRol {
-  // Definir la clase UserRol si es necesario
 }
 
 class GeneralStatus {
