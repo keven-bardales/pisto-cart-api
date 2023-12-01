@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserDataSourceImpl = void 0;
+exports.userDataSource = exports.UserDataSourceImpl = void 0;
 const index_1 = require("@data/index");
 const get_all_user_dto_1 = require("@domain/dtos/user/get-all-user.dto");
 class UserDataSourceImpl {
@@ -67,4 +67,5 @@ class UserDataSourceImpl {
     }
 }
 exports.UserDataSourceImpl = UserDataSourceImpl;
+exports.userDataSource = new UserDataSourceImpl();
 //# sourceMappingURL=user.datasource.impl.js.map

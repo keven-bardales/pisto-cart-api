@@ -4,9 +4,18 @@ import { GetAllUserDto } from "@domain/dtos/user/get-all-user.dto";
 import { CreateUserDto } from "@src/domain/dtos/user/create-user.dto";
 import { UpdateUserDto } from "@src/domain/dtos/user/update-user.dto";
 import { UserEntity } from "@src/domain/entities/user.entity";
+import { userDataSource } from "@infrastructure/datasource/user.datasource.impl";
 
-export class UserRepositoryImpl implements UserRepository {
+class UserRepositoryImpl implements UserRepository {
+  instance: UserRepositoryImpl;
+
   constructor(private readonly dataSource: UserDataSource) {}
+
+  getInstance(dataSource: UserDataSource): UserRepository {
+    if (this.instance) return this.instance;
+
+    return new UserRepositoryImpl(dataSource);
+  }
 
   getAll(): Promise<GetAllUserDto[]> {
     return this.dataSource.getAll();
@@ -33,3 +42,5 @@ export class UserRepositoryImpl implements UserRepository {
     return this.dataSource.checkIfUserExistsByParams(params);
   }
 }
+
+export const userRepository = new UserRepositoryImpl(userDataSource);

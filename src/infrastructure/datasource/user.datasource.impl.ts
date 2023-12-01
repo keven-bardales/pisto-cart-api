@@ -84,3 +84,5 @@ export class UserDataSourceImpl implements UserDataSource {
     return foundUser.id;
   }
 }
+
+export const userDataSource = new UserDataSourceImpl();

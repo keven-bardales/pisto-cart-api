@@ -7,6 +7,8 @@ export const errorHandlingMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log(error);
+
   res.status(500).json(
     ApiResponse.internalServerError({
       message: error.message,

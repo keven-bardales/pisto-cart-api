@@ -74,10 +74,10 @@ model Product {
   stock             Int               @default(0)
   imageUrl          String
   productCategoryId String
-  productStateId    Int
+  productStatusId   Int
   updatedAt         DateTime          @updatedAt
   createdAt         DateTime          @default(now())
-  productState      ProductState      @relation(fields: [productStateId], references: [id])
+  productStatus     ProductStatus     @relation(fields: [productStatusId], references: [id])
   productCategory   ProductCategory   @relation(fields: [productCategoryId], references: [id])
   orderDetails      CartOrderDetail[]
   cartDetails       CartDetail[]
@@ -104,7 +104,7 @@ model ProductCategory {
   @@index([categoryLevel], name: "categoryLevel")
 }
 
-model ProductState {
+model ProductStatus {
   id        Int       @id @default(autoincrement())
   name      String
   createdAt DateTime  @default(now())

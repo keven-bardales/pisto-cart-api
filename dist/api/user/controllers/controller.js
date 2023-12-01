@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserController = void 0;
+exports.userController = exports.UserController = void 0;
 const create_user_dto_1 = require("@src/domain/dtos/user/create-user.dto");
 const update_user_dto_1 = require("@src/domain/dtos/user/update-user.dto");
 const getAll_users_use_case_1 = require("@src/domain/use-cases/user/getAll-users.use-case");
 const getbyId_user_use_case_1 = require("@src/domain/use-cases/user/getbyId-user.use-case");
+const update_user_use_case_1 = require("@src/domain/use-cases/user/update-user.use-case");
 const response_1 = require("@src/domain/wrappers/response");
+const user_repository_impl_1 = require("@src/infrastructure/repositories/user.repository.impl");
 class UserController {
     userRepository;
     constructor(userRepository) {
@@ -66,35 +68,21 @@ class UserController {
         }
     };
     update = async (req, res, next) => {
-        try {
-            const updateUserDto = update_user_dto_1.UpdateUserDto.create(req.body);
-            const { id } = req.params;
-            const foundUserId = await this.userRepository.checkIfUserExistsByParams({
-                id,
-            });
-            if (!foundUserId) {
-                return res.status(404).json(response_1.ApiResponse.error({
-                    message: "User not found",
-                    statusCode: 404,
-                }));
-            }
-            const user = await this.userRepository.update(id, updateUserDto);
-            if (!user) {
-                return res.status(400).json(response_1.ApiResponse.badRequest({
-                    message: "Ha ocurrido un error al actualizar el usuario",
-                    errors: ["Ha ocurrido un error al actualizar el usuario"],
-                }));
-            }
+        const updateUserDto = update_user_dto_1.UpdateUserDto.create(req.body);
+        new update_user_use_case_1.UpdateUserUseCase(this.userRepository)
+            .execute(req.params.id, updateUserDto)
+            .then((user) => {
             return res.status(200).json(response_1.ApiResponse.success({
                 data: user,
-                message: "Usuario actualizado con exito",
+                message: "User updated successfully",
                 statusCode: 200,
             }));
-        }
-        catch (error) {
+        })
+            .catch((error) => {
             next(error);
-        }
+        });
     };
 }
 exports.UserController = UserController;
+exports.userController = new UserController(user_repository_impl_1.userRepository);
 //# sourceMappingURL=controller.js.map

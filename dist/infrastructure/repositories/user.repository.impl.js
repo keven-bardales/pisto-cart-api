@@ -1,10 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserRepositoryImpl = void 0;
+exports.userRepository = void 0;
+const user_datasource_impl_1 = require("@infrastructure/datasource/user.datasource.impl");
 class UserRepositoryImpl {
     dataSource;
+    instance;
     constructor(dataSource) {
         this.dataSource = dataSource;
+    }
+    getInstance(dataSource) {
+        if (this.instance)
+            return this.instance;
+        return new UserRepositoryImpl(dataSource);
     }
     getAll() {
         return this.dataSource.getAll();
@@ -22,5 +29,5 @@ class UserRepositoryImpl {
         return this.dataSource.checkIfUserExistsByParams(params);
     }
 }
-exports.UserRepositoryImpl = UserRepositoryImpl;
+exports.userRepository = new UserRepositoryImpl(user_datasource_impl_1.userDataSource);
 //# sourceMappingURL=user.repository.impl.js.map

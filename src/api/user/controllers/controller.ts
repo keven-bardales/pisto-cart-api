@@ -3,7 +3,9 @@ import { CreateUserDto } from "@src/domain/dtos/user/create-user.dto";
 import { UpdateUserDto } from "@src/domain/dtos/user/update-user.dto";
 import { GetAllUsersUseCase } from "@src/domain/use-cases/user/getAll-users.use-case";
 import { GetByIdUserUseCase } from "@src/domain/use-cases/user/getbyId-user.use-case";
+import { UpdateUserUseCase } from "@src/domain/use-cases/user/update-user.use-case";
 import { ApiResponse } from "@src/domain/wrappers/response";
+import { userRepository } from "@src/infrastructure/repositories/user.repository.impl";
 import { NextFunction, Request, Response } from "express";
 
 export class UserController {
@@ -80,44 +82,23 @@ export class UserController {
   };
 
   public update = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const updateUserDto = UpdateUserDto.create(req.body);
+    const updateUserDto = UpdateUserDto.create(req.body);
 
-      const { id } = req.params;
-
-      const foundUserId = await this.userRepository.checkIfUserExistsByParams({
-        id,
+    new UpdateUserUseCase(this.userRepository)
+      .execute(req.params.id, updateUserDto)
+      .then((user) => {
+        return res.status(200).json(
+          ApiResponse.success({
+            data: user,
+            message: "User updated successfully",
+            statusCode: 200,
+          })
+        );
+      })
+      .catch((error) => {
+        next(error);
       });
-
-      if (!foundUserId) {
-        return res.status(404).json(
-          ApiResponse.error({
-            message: "User not found",
-            statusCode: 404,
-          })
-        );
-      }
-
-      const user = await this.userRepository.update(id, updateUserDto);
-
-      if (!user) {
-        return res.status(400).json(
-          ApiResponse.badRequest({
-            message: "Ha ocurrido un error al actualizar el usuario",
-            errors: ["Ha ocurrido un error al actualizar el usuario"],
-          })
-        );
-      }
-
-      return res.status(200).json(
-        ApiResponse.success({
-          data: user,
-          message: "Usuario actualizado con exito",
-          statusCode: 200,
-        })
-      );
-    } catch (error) {
-      next(error);
-    }
   };
 }
+
+export const userController = new UserController(userRepository);
