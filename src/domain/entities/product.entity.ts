@@ -1,4 +1,4 @@
-import { ProductStateEntity } from "@domain/entities/product-state.entity";
+import { ProductStatusEntity } from "@src/domain/entities/product-status.entity";
 import { ProductCategoryEntity } from "@domain/entities/product-category.entity";
 import { CartOrderDetailEntity } from "@domain/entities/cart-order-detail.entity";
 import { CartDetailEntity } from "@domain/entities/cart-detail.entity";
@@ -14,10 +14,10 @@ export class ProductEntity {
     public stock: number,
     public imageUrl: string,
     public productCategoryId: string,
-    public productStateId: string,
+    public productStatusId: number,
     public createdAt: Date,
     public updatedAt: Date,
-    public productState?: ProductStateEntity,
+    public productStatus?: ProductStatusEntity,
     public productCategory?: ProductCategoryEntity,
     public orderDetails?: CartOrderDetailEntity[],
     public cartDetails?: CartDetailEntity[]
@@ -37,7 +37,7 @@ export class ProductEntity {
       object.productStateId,
       object.createdAt,
       object.updatedAt,
-      ProductStateEntity.fromObject(object?.productState),
+      ProductStatusEntity.fromObject(object?.productState),
       ProductCategoryEntity.fromObject(object?.productCategory),
       object?.orderDetails.map((orderDetail: any) =>
         CartOrderDetailEntity.fromObject(orderDetail)

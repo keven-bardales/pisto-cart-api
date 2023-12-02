@@ -1,6 +1,6 @@
 import { ProductEntity } from "@domain/entities/product.entity";
 
-export class ProductStateEntity {
+export class ProductStatusEntity {
   constructor(
     public id: string,
     public name: string,
@@ -9,8 +9,8 @@ export class ProductStateEntity {
     public products?: ProductEntity[]
   ) {}
 
-  static fromObject(object: any): ProductStateEntity {
-    return new ProductStateEntity(
+  static fromObject(object: any): ProductStatusEntity {
+    return new ProductStatusEntity(
       object.id,
       object.name,
       object.createdAt,

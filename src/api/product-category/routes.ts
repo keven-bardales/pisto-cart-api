@@ -1,8 +1,6 @@
 import { Router } from "express";
 import { validate } from "@api/shared/middlewares/validate-request.middleware";
 
-import { productStatusController } from "@api/product-status/controllers/product-status.controller";
-import { createProductStatusSchema } from "@api/product-status/validation-schemas/create-product-status.schema";
 import { productCategoryController } from "@api/product-category/controllers/product-category.controller";
 import { createProductCategorySchema } from "@api/product-category/validation-schemas/create-product-category-schema";
 

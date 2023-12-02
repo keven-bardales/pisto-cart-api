@@ -7,6 +7,7 @@ const routes_2 = require("@api/user-rol/routes");
 const routes_3 = require("@api/generalStatus/routes");
 const routes_4 = require("@api/product-status/routes");
 const routes_5 = require("@api/product-category/routes");
+const routes_6 = require("./product/routes");
 class AppRoutes {
     static get routes() {
         const APIVERSION = "/api/v1";
@@ -16,6 +17,7 @@ class AppRoutes {
         router.use(APIVERSION, routes_3.GeneralStatusRoutes.routes);
         router.use(APIVERSION, routes_4.ProductStatusRoutes.routes);
         router.use(APIVERSION, routes_5.ProductCategoryRoutes.routes);
+        router.use(APIVERSION, routes_6.ProductRoutes.routes);
         return router;
     }
 }
