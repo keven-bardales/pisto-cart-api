@@ -1,4 +1,4 @@
-import { UserEntity } from "domain/entities/user.entity";
+import { UserEntity } from "@domain/entities/user.entity";
 import { GetAllUserDto } from "@domain/dtos/user/get-all-user.dto";
 import { CreateUserDto } from "@domain/dtos/user/create-user.dto";
 import { UpdateUserDto } from "@domain/dtos/user/update-user.dto";

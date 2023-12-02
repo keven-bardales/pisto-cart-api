@@ -1,0 +1,6 @@
+export enum ProductCategoryLevel {
+  PARENTCATEGORY = 1,
+  CATEGORYLEVEL2 = 2,
+  CATEGORYLEVEL3 = 3,
+  CATEGORYLEVEL4 = 4,
+}

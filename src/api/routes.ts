@@ -3,6 +3,7 @@ import { UserRoutes } from "@api/user/routes";
 import { UserRolRoutes } from "@api/user-rol/routes";
 import { GeneralStatusRoutes } from "@api/generalStatus/routes";
 import { ProductStatusRoutes } from "@api/product-status/routes";
+import { ProductCategoryRoutes } from "@api/product-category/routes";
 
 export class AppRoutes {
   static get routes(): Router {
@@ -17,6 +18,8 @@ export class AppRoutes {
     router.use(APIVERSION, GeneralStatusRoutes.routes);
 
     router.use(APIVERSION, ProductStatusRoutes.routes);
+
+    router.use(APIVERSION, ProductCategoryRoutes.routes);
 
     return router;
   }

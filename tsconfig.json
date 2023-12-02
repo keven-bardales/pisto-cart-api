@@ -1,21 +1,20 @@
 {
   "compilerOptions": {
-
-    "module": "NodeNext",                             
-    "moduleResolution": "NodeNext", 
-    "baseUrl": "src",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "baseUrl": ".",
     "outDir": "./dist",
-    "sourceMap": true,                          
-    "skipLibCheck": true  ,
+    "sourceMap": true,
+    "skipLibCheck": true,
     "noImplicitAny": true,
     "paths": {
-      "@src/*": ["*"],
-      "@api/*": ["api/*"],
-      "@data/*": ["data/*"],
-      "@config/*": ["config/*"],
-      "@domain/*": ["domain/*"],
-      "@infrastructure/*" : ["infrastructure/*"],
-    }                             
+      "@src/*": ["src/*"],
+      "@api/*": ["src/api/*"],
+      "@data/*": ["src/data/*"],
+      "@config/*": ["src/config/*"],
+      "@domain/*": ["src/domain/*"],
+      "@infrastructure/*": ["src/infrastructure/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
