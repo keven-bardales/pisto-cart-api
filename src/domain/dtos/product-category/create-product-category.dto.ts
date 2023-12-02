@@ -6,6 +6,7 @@ export class CreateProductCategoryDto {
     public readonly name: typeof ProductCategoryEntity.prototype.name,
     public readonly categoryLevel: typeof ProductCategoryEntity.prototype.categoryLevel,
     public readonly description: typeof ProductCategoryEntity.prototype.description,
+    public readonly imageUrl: typeof ProductCategoryEntity.prototype.imageUrl,
     public readonly parentCategoryId: typeof ProductCategoryEntity.prototype.parentCategoryId = null
   ) {}
 
@@ -15,6 +16,7 @@ export class CreateProductCategoryDto {
       object?.name,
       object?.categoryLevel,
       object?.description,
+      object?.imageUrl,
       object?.parentCategoryId
     );
   }

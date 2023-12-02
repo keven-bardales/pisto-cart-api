@@ -1,4 +1,5 @@
 import { ProductRepository } from "@src/domain/repositories/product-repository";
+import { CreateProductUseCase } from "@src/domain/use-cases/product/create-product.use-case";
 import { GetAllProductUseCase } from "@src/domain/use-cases/product/get-all-products.use-case";
 import { ApiResponse } from "@src/domain/wrappers/response";
 import { productRepository } from "@src/infrastructure/repositories/product.repository.impl";
@@ -21,11 +22,30 @@ export class ProductController {
           );
         }
 
-        return ApiResponse.success({
-          data: products,
-          message: "Productos obtenidos correctamente",
-          statusCode: 200,
-        });
+        return res.status(200).json(
+          ApiResponse.success({
+            data: products,
+            message: "Productos obtenidos correctamente",
+            statusCode: 200,
+          })
+        );
+      })
+      .catch((error) => {
+        next(error);
+      });
+  };
+
+  public create = (req: Request, res: Response, next: NextFunction) => {
+    new CreateProductUseCase(this.productRepository)
+      .exucute(req.body)
+      .then((product) => {
+        return res.status(201).json(
+          ApiResponse.success({
+            data: product,
+            message: "Producto creado correctamente",
+            statusCode: 201,
+          })
+        );
       })
       .catch((error) => {
         next(error);

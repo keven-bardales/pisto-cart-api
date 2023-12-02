@@ -93,6 +93,7 @@ model ProductCategory {
   name             String
   categoryLevel    Int
   parentCategoryId String?
+  imageUrl         String
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
   description      String

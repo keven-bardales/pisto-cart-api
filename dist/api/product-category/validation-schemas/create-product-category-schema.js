@@ -46,6 +46,14 @@ exports.createProductCategorySchema = z.object({
             .max(255, {
             message: "La descripción no debe exceder los 255 caracteres",
         }),
+        imageUrl: z
+            .string({
+            invalid_type_error: "La url de la imagen debe ser de tipo texto",
+            required_error: "La url de la imagen es requerida",
+        })
+            .url({
+            message: "La url de la imagen debe ser una URL válida",
+        }),
         parentCategoryId: z
             .string({
             invalid_type_error: "El id de la categoría padre debe ser de tipo texto",

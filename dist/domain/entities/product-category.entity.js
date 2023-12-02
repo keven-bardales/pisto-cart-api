@@ -11,8 +11,9 @@ class ProductCategoryEntity {
     createdAt;
     updatedAt;
     description;
+    imageUrl;
     products;
-    constructor(id, categoryCode, name, categoryLevel, parentCategoryId, createdAt, updatedAt, description, products = []) {
+    constructor(id, categoryCode, name, categoryLevel, parentCategoryId, createdAt, updatedAt, description, imageUrl, products = []) {
         this.id = id;
         this.categoryCode = categoryCode;
         this.name = name;
@@ -21,10 +22,11 @@ class ProductCategoryEntity {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.products = products;
     }
     static fromObject(object) {
-        return new ProductCategoryEntity(object.id, object.categoryCode, object.name, object.categoryLevel, object.parentCategoryId || null, object.createdAt, object.updatedAt, object.description, object.products
+        return new ProductCategoryEntity(object.id, object.categoryCode, object.name, object.categoryLevel, object.parentCategoryId || null, object.createdAt, object.updatedAt, object.description, object.imageUrl, object.products
             ? object.products.map((product) => product_entity_1.ProductEntity.fromObject(product))
             : []);
     }

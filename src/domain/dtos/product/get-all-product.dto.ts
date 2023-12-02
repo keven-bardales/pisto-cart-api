@@ -12,8 +12,8 @@ export class GetAllProductDto {
     public readonly productStatusId: typeof ProductEntity.prototype.productStatusId,
     public readonly updatedAt: typeof ProductEntity.prototype.updatedAt,
     public readonly createdAt: typeof ProductEntity.prototype.createdAt,
-    public readonly productStatus: typeof ProductEntity.prototype.productStatus,
-    public readonly productCategory: typeof ProductEntity.prototype.productCategory
+    public readonly productStatus?: typeof ProductEntity.prototype.productStatus,
+    public readonly productCategory?: typeof ProductEntity.prototype.productCategory
   ) {}
 
   static create(object: { [key: string]: any }): GetAllProductDto {

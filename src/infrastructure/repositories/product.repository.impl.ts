@@ -14,7 +14,9 @@ export class ProductRepositoryImpl implements ProductRepository {
   }
 
   async getAll(): Promise<GetAllProductDto[]> {
-    return await this.dataSource.getAll();
+    const products = await this.dataSource.getAll();
+
+    return products;
   }
 }
 

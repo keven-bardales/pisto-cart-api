@@ -12,7 +12,8 @@ class ProductRepositoryImpl {
         return product;
     }
     async getAll() {
-        return await this.dataSource.getAll();
+        const products = await this.dataSource.getAll();
+        return products;
     }
 }
 exports.ProductRepositoryImpl = ProductRepositoryImpl;

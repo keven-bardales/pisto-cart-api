@@ -6,16 +6,18 @@ class CreateProductCategoryDto {
     name;
     categoryLevel;
     description;
+    imageUrl;
     parentCategoryId;
-    constructor(categoryCode, name, categoryLevel, description, parentCategoryId = null) {
+    constructor(categoryCode, name, categoryLevel, description, imageUrl, parentCategoryId = null) {
         this.categoryCode = categoryCode;
         this.name = name;
         this.categoryLevel = categoryLevel;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.parentCategoryId = parentCategoryId;
     }
     static create(object) {
-        return new CreateProductCategoryDto(object?.categoryCode, object?.name, object?.categoryLevel, object?.description, object?.parentCategoryId);
+        return new CreateProductCategoryDto(object?.categoryCode, object?.name, object?.categoryLevel, object?.description, object?.imageUrl, object?.parentCategoryId);
     }
 }
 exports.CreateProductCategoryDto = CreateProductCategoryDto;

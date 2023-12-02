@@ -10,6 +10,7 @@ export class ProductCategoryEntity {
     public createdAt: Date,
     public updatedAt: Date,
     public description: string,
+    public imageUrl: string,
     public products: ProductEntity[] = []
   ) {}
 
@@ -23,6 +24,7 @@ export class ProductCategoryEntity {
       object.createdAt,
       object.updatedAt,
       object.description,
+      object.imageUrl,
       object.products
         ? object.products.map((product: any) =>
             ProductEntity.fromObject(product)
