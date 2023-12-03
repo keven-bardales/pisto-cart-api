@@ -1,5 +1,6 @@
 import compression from "compression";
 import express, { Router } from "express";
+import cors from "cors";
 import { errorHandlingMiddleware } from "./shared/middlewares/error-handler.middleware";
 
 interface Options {
@@ -25,6 +26,7 @@ export class Server {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(compression());
+    this.app.use(cors());
 
     this.app.use(express.static(this.publicPath));
 
