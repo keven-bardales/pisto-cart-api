@@ -12,6 +12,7 @@ export class GetAllProductDto {
     public readonly productStatusId: typeof ProductEntity.prototype.productStatusId,
     public readonly updatedAt: typeof ProductEntity.prototype.updatedAt,
     public readonly createdAt: typeof ProductEntity.prototype.createdAt,
+    public readonly imageUrl?: typeof ProductEntity.prototype.imageUrl,
     public readonly productStatus?: typeof ProductEntity.prototype.productStatus,
     public readonly productCategory?: typeof ProductEntity.prototype.productCategory
   ) {}
@@ -28,6 +29,7 @@ export class GetAllProductDto {
       object?.productStatusId,
       object?.updatedAt,
       object?.createdAt,
+      object?.imageUrl,
       object?.productStatus,
       object?.productCategory
     );

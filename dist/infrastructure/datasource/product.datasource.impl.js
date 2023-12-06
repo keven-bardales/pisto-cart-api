@@ -5,7 +5,11 @@ const data_1 = require("@src/data");
 const get_all_product_dto_1 = require("@src/domain/dtos/product/get-all-product.dto");
 class ProductDataSourceImpl {
     async getAll() {
-        const products = await data_1.prisma.product.findMany();
+        const products = await data_1.prisma.product.findMany({
+            include: {
+                productCategory: true,
+            },
+        });
         return products.map((product) => get_all_product_dto_1.GetAllProductDto.create(product));
     }
     async create(dto) {

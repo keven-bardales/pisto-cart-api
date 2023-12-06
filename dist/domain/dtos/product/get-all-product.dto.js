@@ -12,9 +12,10 @@ class GetAllProductDto {
     productStatusId;
     updatedAt;
     createdAt;
+    imageUrl;
     productStatus;
     productCategory;
-    constructor(id, code, name, description, price, stock, productCategoryId, productStatusId, updatedAt, createdAt, productStatus, productCategory) {
+    constructor(id, code, name, description, price, stock, productCategoryId, productStatusId, updatedAt, createdAt, imageUrl, productStatus, productCategory) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -25,11 +26,12 @@ class GetAllProductDto {
         this.productStatusId = productStatusId;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
+        this.imageUrl = imageUrl;
         this.productStatus = productStatus;
         this.productCategory = productCategory;
     }
     static create(object) {
-        return new GetAllProductDto(object?.id, object?.code, object?.name, object?.description, object?.price, object?.stock, object?.productCategoryId, object?.productStatusId, object?.updatedAt, object?.createdAt, object?.productStatus, object?.productCategory);
+        return new GetAllProductDto(object?.id, object?.code, object?.name, object?.description, object?.price, object?.stock, object?.productCategoryId, object?.productStatusId, object?.updatedAt, object?.createdAt, object?.imageUrl, object?.productStatus, object?.productCategory);
     }
 }
 exports.GetAllProductDto = GetAllProductDto;

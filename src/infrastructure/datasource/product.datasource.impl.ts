@@ -5,7 +5,11 @@ import { GetAllProductDto } from "@src/domain/dtos/product/get-all-product.dto";
 
 export class ProductDataSourceImpl implements ProductDataSource {
   async getAll(): Promise<GetAllProductDto[]> {
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({
+      include: {
+        productCategory: true,
+      },
+    });
 
     return products.map((product) => GetAllProductDto.create(product));
   }
