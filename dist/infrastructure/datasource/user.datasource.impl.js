@@ -71,7 +71,13 @@ class UserDataSourceImpl {
             where: {
                 email: loginCredential,
             },
+            include: {
+                rol: true,
+            },
         });
+        if (!user) {
+            return null;
+        }
         return user_with_password_dto_1.UserWithPasswordDto.fromObject(user);
     }
 }

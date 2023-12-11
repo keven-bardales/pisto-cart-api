@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productController = exports.ProductController = void 0;
+const pagination_dto_1 = require("@src/domain/dtos/shared/pagination.dto");
 const create_product_use_case_1 = require("@src/domain/use-cases/product/create-product.use-case");
 const get_all_products_use_case_1 = require("@src/domain/use-cases/product/get-all-products.use-case");
 const response_1 = require("@src/domain/wrappers/response");
@@ -11,8 +12,9 @@ class ProductController {
         this.productRepository = productRepository;
     }
     getAll = (req, res, next) => {
+        const paginationDto = pagination_dto_1.PaginationDto.fromObject(req.query);
         new get_all_products_use_case_1.GetAllProductUseCase(this.productRepository)
-            .exucute()
+            .exucute(paginationDto)
             .then((products) => {
             if (products.length === 0) {
                 return res.status(200).json(response_1.ApiResponse.success({

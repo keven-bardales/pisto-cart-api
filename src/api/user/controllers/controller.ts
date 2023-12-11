@@ -117,13 +117,16 @@ export class UserController {
 
     new LoginUserUseCase(this.userRepository)
       .execute(loginDto)
-      .then((user) => {
-        const token = JwtAdapter.generateToken({ id: user.id, rol: user.rol, fullName: user.fullName });
+      .then(async (user) => {
+        const token = await JwtAdapter.generateToken({ id: user.id, rol: user.rol, fullName: user.fullName }, "8h");
 
         return res.status(200).json(
           ApiResponse.success({
-            data: token,
-            message: "Usuario logueado con exito",
+            data: {
+              user,
+              token,
+            },
+            message: `Bienvenido ${user.fullName}`,
             statusCode: 200,
           })
         );

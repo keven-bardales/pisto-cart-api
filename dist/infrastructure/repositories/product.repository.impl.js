@@ -11,8 +11,8 @@ class ProductRepositoryImpl {
         const product = await this.dataSource.create(dto);
         return product;
     }
-    async getAll() {
-        const products = await this.dataSource.getAll();
+    async getAll(dto) {
+        const products = await this.dataSource.getAll(dto);
         return products;
     }
 }

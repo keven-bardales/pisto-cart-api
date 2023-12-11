@@ -15,14 +15,14 @@ exports.bcryptAdapter = {
         });
         return hash;
     },
-    compare: (password, hashed) => {
-        const result = bcrypt_1.default
-            .compare(password, hashed)
-            .then((result) => result)
-            .catch((err) => {
+    compare: async (password, hashed) => {
+        try {
+            const result = await bcrypt_1.default.compare(password, hashed);
+            return result;
+        }
+        catch (err) {
             throw new Error("Ocurrió un error al comparar las contraseñas");
-        });
-        return result;
+        }
     },
 };
 //# sourceMappingURL=bcrypt.adapter.js.map

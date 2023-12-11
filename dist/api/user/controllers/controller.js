@@ -98,11 +98,14 @@ class UserController {
         const loginDto = login_user_dto_1.LoginUserDto.create(req.body);
         new login_user_use_case_1.LoginUserUseCase(this.userRepository)
             .execute(loginDto)
-            .then((user) => {
-            const token = jwt_adapter_1.JwtAdapter.generateToken({ id: user.id, rol: user.rol, fullName: user.fullName });
+            .then(async (user) => {
+            const token = await jwt_adapter_1.JwtAdapter.generateToken({ id: user.id, rol: user.rol, fullName: user.fullName }, "8h");
             return res.status(200).json(response_1.ApiResponse.success({
-                data: token,
-                message: "Usuario logueado con exito",
+                data: {
+                    user,
+                    token,
+                },
+                message: `Bienvenido ${user.fullName}`,
                 statusCode: 200,
             }));
         })

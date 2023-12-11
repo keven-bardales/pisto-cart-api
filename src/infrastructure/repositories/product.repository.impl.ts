@@ -3,6 +3,7 @@ import { CreateProductDto } from "@src/domain/dtos/product/create-product.dto";
 import { GetAllProductDto } from "@src/domain/dtos/product/get-all-product.dto";
 import { ProductRepository } from "@src/domain/repositories/product-repository";
 import { productDataSource } from "@infrastructure/datasource/product.datasource.impl";
+import { PaginationDto } from "@src/domain/dtos/shared/pagination.dto";
 
 export class ProductRepositoryImpl implements ProductRepository {
   constructor(private readonly dataSource: ProductDataSource) {}
@@ -13,8 +14,8 @@ export class ProductRepositoryImpl implements ProductRepository {
     return product;
   }
 
-  async getAll(): Promise<GetAllProductDto[]> {
-    const products = await this.dataSource.getAll();
+  async getAll(dto: PaginationDto): Promise<GetAllProductDto[]> {
+    const products = await this.dataSource.getAll(dto);
 
     return products;
   }

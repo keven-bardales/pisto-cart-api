@@ -12,14 +12,12 @@ export const bcryptAdapter = {
     return hash;
   },
 
-  compare: (password: string, hashed: string) => {
-    const result = bcrypt
-      .compare(password, hashed)
-      .then((result) => result)
-      .catch((err) => {
-        throw new Error("Ocurrió un error al comparar las contraseñas");
-      });
-
-    return result;
+  compare: async (password: string, hashed: string) => {
+    try {
+      const result = await bcrypt.compare(password, hashed);
+      return result;
+    } catch (err) {
+      throw new Error("Ocurrió un error al comparar las contraseñas");
+    }
   },
 };

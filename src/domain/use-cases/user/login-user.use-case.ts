@@ -13,7 +13,13 @@ export class LoginUserUseCase implements ILoginUserUseCase {
   async execute(dto: LoginUserDto): Promise<GetAllUserDto> {
     const userCreated = await this.userRepository.login(dto);
 
-    const passwordtMatch = bcryptAdapter.compare(dto.password, userCreated.password);
+    if (!userCreated) throw new Error("El usuario o la contraseña son incorrectos");
+
+    const passwordtMatch = await bcryptAdapter.compare(dto.password, userCreated.password);
+
+    console.log({
+      passwordtMatch,
+    });
 
     if (!passwordtMatch) throw new Error("El usuario o la contraseña son incorrectos");
 

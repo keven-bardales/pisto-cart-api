@@ -86,7 +86,14 @@ export class UserDataSourceImpl implements UserDataSource {
       where: {
         email: loginCredential,
       },
+      include: {
+        rol: true,
+      },
     });
+
+    if (!user) {
+      return null;
+    }
 
     return UserWithPasswordDto.fromObject(user);
   }

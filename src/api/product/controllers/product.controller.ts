@@ -1,3 +1,4 @@
+import { PaginationDto } from "@src/domain/dtos/shared/pagination.dto";
 import { ProductRepository } from "@src/domain/repositories/product-repository";
 import { CreateProductUseCase } from "@src/domain/use-cases/product/create-product.use-case";
 import { GetAllProductUseCase } from "@src/domain/use-cases/product/get-all-products.use-case";
@@ -9,8 +10,10 @@ export class ProductController {
   constructor(private readonly productRepository: ProductRepository) {}
 
   public getAll = (req: Request, res: Response, next: NextFunction) => {
+    const paginationDto = PaginationDto.fromObject(req.query);
+
     new GetAllProductUseCase(this.productRepository)
-      .exucute()
+      .exucute(paginationDto)
       .then((products) => {
         if (products.length === 0) {
           return res.status(200).json(
