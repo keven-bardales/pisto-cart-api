@@ -5,6 +5,8 @@ import { CreateUserDto } from "@src/domain/dtos/user/create-user.dto";
 import { UpdateUserDto } from "@src/domain/dtos/user/update-user.dto";
 import { UserEntity } from "@src/domain/entities/user.entity";
 import { userDataSource } from "@infrastructure/datasource/user.datasource.impl";
+import { LoginUserDto } from "@src/domain/dtos/user/login-user.dto";
+import { UserWithPasswordDto } from "@src/domain/dtos/user/user-with-password.dto";
 
 class UserRepositoryImpl implements UserRepository {
   instance: UserRepositoryImpl;
@@ -29,17 +31,16 @@ class UserRepositoryImpl implements UserRepository {
     return this.dataSource.create(user);
   }
 
-  update(
-    id: typeof UserEntity.prototype.id,
-    user: UpdateUserDto
-  ): Promise<GetAllUserDto> {
+  update(id: typeof UserEntity.prototype.id, user: UpdateUserDto): Promise<GetAllUserDto> {
     return this.dataSource.update(id, user);
   }
 
-  checkIfUserExistsByParams(params: {
-    [key: string]: any;
-  }): Promise<typeof UserEntity.prototype.id> {
+  checkIfUserExistsByParams(params: { [key: string]: any }): Promise<GetAllUserDto> {
     return this.dataSource.checkIfUserExistsByParams(params);
+  }
+
+  login(dto: LoginUserDto): Promise<UserWithPasswordDto> {
+    return this.dataSource.login(dto);
   }
 }
 

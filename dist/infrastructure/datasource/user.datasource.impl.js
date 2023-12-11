@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userDataSource = exports.UserDataSourceImpl = void 0;
 const index_1 = require("@data/index");
 const get_all_user_dto_1 = require("@domain/dtos/user/get-all-user.dto");
+const user_with_password_dto_1 = require("@src/domain/dtos/user/user-with-password.dto");
 class UserDataSourceImpl {
     async getAll() {
         const users = await index_1.prisma.user.findMany({
@@ -22,8 +23,7 @@ class UserDataSourceImpl {
             },
         });
         if (!user) {
-            //  TODO: Implementar un error personalizado
-            throw new Error(`Usuario con id ${id} no encontrado`);
+            return null;
         }
         return get_all_user_dto_1.GetAllUserDto.fromObject(user);
     }
@@ -63,7 +63,16 @@ class UserDataSourceImpl {
         if (!foundUser) {
             return null;
         }
-        return foundUser.id;
+        return get_all_user_dto_1.GetAllUserDto.fromObject(foundUser);
+    }
+    async login(dto) {
+        const { loginCredential, password } = dto;
+        const user = await index_1.prisma.user.findFirst({
+            where: {
+                email: loginCredential,
+            },
+        });
+        return user_with_password_dto_1.UserWithPasswordDto.fromObject(user);
     }
 }
 exports.UserDataSourceImpl = UserDataSourceImpl;

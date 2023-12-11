@@ -13,6 +13,9 @@ class UserRolRepositoryImpl {
     create(dto) {
         return this.dataSource.create(dto);
     }
+    getById(id) {
+        return this.dataSource.getById(id);
+    }
 }
 exports.UserRolRepositoryImpl = UserRolRepositoryImpl;
 exports.userRolRepository = new UserRolRepositoryImpl(user_rol_datasource_impl_1.userRolDataSource);

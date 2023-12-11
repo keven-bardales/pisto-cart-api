@@ -27,8 +27,11 @@ class CreateUserDto {
     get getFullName() {
         return `${this.firstName} ${this.lastName}`;
     }
+    set hashedPassword(password) {
+        this.password = password;
+    }
     static create(props) {
-        const { googleId, firstName, lastName, email, imageUrl, rolId, generalStatusId, password, confirmPassword, } = props;
+        const { googleId, firstName, lastName, email, imageUrl, rolId, generalStatusId, password, confirmPassword } = props;
         return new CreateUserDto(googleId, firstName, lastName, `${firstName} ${lastName}`, email, imageUrl, rolId, generalStatusId, password, confirmPassword);
     }
 }
