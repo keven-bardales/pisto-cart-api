@@ -14,12 +14,12 @@ export class ProductController {
 
     new GetAllProductUseCase(this.productRepository)
       .exucute(paginationDto)
-      .then((products) => {
-        if (products.length === 0) {
+      .then((dto) => {
+        if (dto.items.length === 0) {
           return res.status(200).json(
             ApiResponse.success({
-              data: products,
-              message: "No hay productos",
+              data: dto,
+              message: "No se encontraron productos",
               statusCode: 200,
             })
           );
@@ -27,7 +27,7 @@ export class ProductController {
 
         return res.status(200).json(
           ApiResponse.success({
-            data: products,
+            data: dto,
             message: "Productos obtenidos correctamente",
             statusCode: 200,
           })

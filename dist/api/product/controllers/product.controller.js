@@ -15,16 +15,16 @@ class ProductController {
         const paginationDto = pagination_dto_1.PaginationDto.fromObject(req.query);
         new get_all_products_use_case_1.GetAllProductUseCase(this.productRepository)
             .exucute(paginationDto)
-            .then((products) => {
-            if (products.length === 0) {
+            .then((dto) => {
+            if (dto.items.length === 0) {
                 return res.status(200).json(response_1.ApiResponse.success({
-                    data: products,
-                    message: "No hay productos",
+                    data: dto,
+                    message: "No se encontraron productos",
                     statusCode: 200,
                 }));
             }
             return res.status(200).json(response_1.ApiResponse.success({
-                data: products,
+                data: dto,
                 message: "Productos obtenidos correctamente",
                 statusCode: 200,
             }));

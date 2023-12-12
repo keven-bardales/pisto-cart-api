@@ -1,13 +1,14 @@
 export class PaginationDto {
-  constructor(public readonly page: number, public readonly limit: number, public readonly search: string, public readonly column: string, public readonly order: string) {}
+  constructor(public readonly page: number, public readonly limit: number, public readonly search: string, public readonly column: string, public readonly order: string, public readonly all = false) {}
 
   static fromObject(
-    payload: { page?: any; limit?: any; search?: string; column?: string; order?: string } = {
+    payload: { page?: any; limit?: any; search?: string; column?: string; order?: string; all?: boolean } = {
       page: 1,
       limit: 10,
       search: "",
       column: "",
       order: "",
+      all: false,
     }
   ): PaginationDto {
     payload.page = parseInt(payload.page as string);
@@ -22,6 +23,6 @@ export class PaginationDto {
 
     if (isNaN(payload?.limit)) throw new Error("El limite debe ser un numero");
 
-    return new PaginationDto(payload?.page, payload?.limit, payload?.search, payload?.column, payload?.order);
+    return new PaginationDto(payload?.page, payload?.limit, payload?.search, payload?.column, payload?.order, payload?.all);
   }
 }

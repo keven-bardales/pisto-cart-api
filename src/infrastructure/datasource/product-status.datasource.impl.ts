@@ -16,9 +16,7 @@ export class ProductStatusDataSourceImpl extends ProductStatusDataSource {
   async getAll(): Promise<GetAllProductStatusDto[]> {
     const productStatuses = await prisma.productStatus.findMany();
 
-    return productStatuses.map((productStatus) =>
-      GetAllProductStatusDto.fromObject(productStatus)
-    );
+    return productStatuses.map((productStatus) => GetAllProductStatusDto.fromObject(productStatus));
   }
 }
 
