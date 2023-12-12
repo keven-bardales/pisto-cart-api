@@ -4,43 +4,102 @@ exports.productDataSource = exports.ProductDataSourceImpl = void 0;
 const data_1 = require("@src/data");
 const get_all_product_dto_1 = require("@src/domain/dtos/product/get-all-product.dto");
 const get_paginated_dto_1 = require("@src/domain/dtos/shared/get-paginated-dto");
+const productIncludes = {
+    productCategory: {
+        include: {
+            parentCategory: {
+                include: {
+                    parentCategory: {
+                        include: {
+                            parentCategory: {
+                                include: {
+                                    parentCategory: true,
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+    productStatus: true,
+};
 class ProductDataSourceImpl {
     async getAll(dto) {
-        const products = await data_1.prisma.product.findMany({
-            include: {
-                productCategory: true,
-            },
-            skip: (dto.page - 1) * dto.limit,
-            take: dto.limit,
+        const getAllProductOptions = {
+            ...dto.forPrisma,
             where: {
-                name: {
-                    contains: dto.search,
-                    mode: "insensitive",
-                },
-                productCategory: {
-                    name: {
-                        contains: dto.search,
-                        mode: "insensitive",
+                OR: [
+                    {
+                        name: {
+                            contains: dto.search,
+                            mode: "insensitive",
+                        },
                     },
-                },
+                    {
+                        productCategory: {
+                            name: {
+                                contains: dto.search,
+                                mode: "insensitive",
+                            },
+                        },
+                    },
+                    {
+                        productCategory: {
+                            parentCategory: {
+                                name: {
+                                    contains: dto.search,
+                                    mode: "insensitive",
+                                },
+                            },
+                        },
+                    },
+                    {
+                        productCategory: {
+                            parentCategory: {
+                                parentCategory: {
+                                    name: {
+                                        contains: dto.search,
+                                        mode: "insensitive",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    {
+                        productCategory: {
+                            parentCategory: {
+                                parentCategory: {
+                                    parentCategory: {
+                                        name: {
+                                            contains: dto.search,
+                                            mode: "insensitive",
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                ],
             },
-            orderBy: {
-                [dto.column]: dto.order,
-            },
+            include: productIncludes,
+        };
+        if (dto.all) {
+            const products = await data_1.prisma.product.findMany({
+                include: getAllProductOptions.include,
+            });
+            return get_paginated_dto_1.GetPaginatedDto.fromObject({
+                currentPage: 1,
+                items: products.map((product) => get_all_product_dto_1.GetAllProductDto.create(product)),
+                limit: products.length,
+                totalItems: products.length,
+            });
+        }
+        const products = await data_1.prisma.product.findMany({
+            ...getAllProductOptions,
         });
         const totalItems = await data_1.prisma.product.count({
-            where: {
-                name: {
-                    contains: dto.search,
-                    mode: "insensitive",
-                },
-                productCategory: {
-                    name: {
-                        contains: dto.search,
-                        mode: "insensitive",
-                    },
-                },
-            },
+            where: getAllProductOptions.where,
         });
         return get_paginated_dto_1.GetPaginatedDto.fromObject({
             currentPage: dto.page,
@@ -54,6 +113,31 @@ class ProductDataSourceImpl {
             data: {
                 ...dto,
             },
+            include: productIncludes,
+        });
+        return get_all_product_dto_1.GetAllProductDto.create(product);
+    }
+    async getById(id) {
+        const product = await data_1.prisma.product.findUnique({
+            where: {
+                id,
+            },
+            include: productIncludes,
+        });
+        if (!product) {
+            return null;
+        }
+        return get_all_product_dto_1.GetAllProductDto.create(product);
+    }
+    async update(id, dto) {
+        const product = await data_1.prisma.product.update({
+            where: {
+                id,
+            },
+            data: {
+                ...dto.getValues(),
+            },
+            include: productIncludes,
         });
         return get_all_product_dto_1.GetAllProductDto.create(product);
     }

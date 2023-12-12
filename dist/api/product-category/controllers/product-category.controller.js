@@ -4,6 +4,7 @@ exports.productCategoryController = exports.ProductCategoryController = void 0;
 const create_product_category_dto_1 = require("@src/domain/dtos/product-category/create-product-category.dto");
 const create_product_category_use_case_1 = require("@src/domain/use-cases/product-category/create-product-category.use-case");
 const get_all_product_category_use_case_1 = require("@src/domain/use-cases/product-category/get-all-product-category.use-case");
+const get_by_id_product_category_use_case_1 = require("@src/domain/use-cases/product-category/get-by-id-product-category.use-case");
 const response_1 = require("@src/domain/wrappers/response");
 const product_category_repository_impl_1 = require("@src/infrastructure/repositories/product-category.repository.impl");
 class ProductCategoryController {
@@ -40,6 +41,21 @@ class ProductCategoryController {
             return res.status(200).json(response_1.ApiResponse.success({
                 data: productCategory,
                 message: "Categoria de producto creada correctamente",
+                statusCode: 200,
+            }));
+        })
+            .catch((error) => {
+            next(error);
+        });
+    };
+    getById = (req, res, next) => {
+        const { id } = req.params;
+        new get_by_id_product_category_use_case_1.GetByIdProductCategoryUseCase(this.productCategoryRepository)
+            .execute(id)
+            .then((productCategory) => {
+            return res.status(200).json(response_1.ApiResponse.success({
+                data: productCategory,
+                message: "Categoria de producto obtenida correctamente",
                 statusCode: 200,
             }));
         })

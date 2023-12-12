@@ -99,10 +99,8 @@ model ProductCategory {
   description      String
   products         Product[]
 
-  @@index([parentCategoryId], name: "parentCategoryId")
-  @@index([categoryCode], name: "categoryCode")
-  @@index([name], name: "categoryname")
-  @@index([categoryLevel], name: "categoryLevel")
+  parentCategory  ProductCategory?  @relation("ChildCategories", fields: [parentCategoryId], references: [id])
+  childCategories ProductCategory[] @relation("ChildCategories")
 }
 
 model ProductStatus {

@@ -3,7 +3,6 @@ import { CreateProductCategoryDto } from "../dtos/product-category/create-produc
 
 export abstract class ProductCategoryDataSource {
   abstract getAll(): Promise<GetAllProductCategoryDto[]>;
-  abstract create(
-    dto: CreateProductCategoryDto
-  ): Promise<GetAllProductCategoryDto>;
+  abstract create(dto: CreateProductCategoryDto): Promise<GetAllProductCategoryDto>;
+  abstract getById(id: string): Promise<GetAllProductCategoryDto>;
 }

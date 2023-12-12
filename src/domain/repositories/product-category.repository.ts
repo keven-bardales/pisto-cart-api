@@ -3,7 +3,6 @@ import { GetAllProductCategoryDto } from "@domain/dtos/product-category/get-all-
 import { CreateProductCategoryDto } from "@domain/dtos/product-category/create-product-category.dto";
 export abstract class ProductCategoryRepository {
   abstract getAll(): Promise<GetAllProductCategoryDto[]>;
-  abstract create(
-    dto: CreateProductCategoryDto
-  ): Promise<GetAllProductCategoryDto>;
+  abstract create(dto: CreateProductCategoryDto): Promise<GetAllProductCategoryDto>;
+  abstract getById(id: string): Promise<GetAllProductCategoryDto>;
 }

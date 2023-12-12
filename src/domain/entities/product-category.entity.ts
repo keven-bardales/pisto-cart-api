@@ -11,7 +11,8 @@ export class ProductCategoryEntity {
     public updatedAt: Date,
     public description: string,
     public imageUrl: string,
-    public products: ProductEntity[] = []
+    public products: ProductEntity[] = [],
+    public parentCategory: ProductCategoryEntity | null
   ) {}
 
   static fromObject(object: any): ProductCategoryEntity {
@@ -25,11 +26,8 @@ export class ProductCategoryEntity {
       object.updatedAt,
       object.description,
       object.imageUrl,
-      object.products
-        ? object.products.map((product: any) =>
-            ProductEntity.fromObject(product)
-          )
-        : []
+      object.products ? object.products.map((product: any) => ProductEntity.fromObject(product)) : [],
+      object.parentCategory ? ProductCategoryEntity.fromObject(object.parentCategory) : null
     );
   }
 }

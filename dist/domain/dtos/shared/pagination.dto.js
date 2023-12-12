@@ -36,6 +36,15 @@ class PaginationDto {
             throw new Error("El limite debe ser un numero");
         return new PaginationDto(payload?.page, payload?.limit, payload?.search, payload?.column, payload?.order, payload?.all);
     }
+    get forPrisma() {
+        return {
+            orderBy: {
+                [this.column]: this.order,
+            },
+            skip: (this.page - 1) * this.limit,
+            take: this.limit,
+        };
+    }
 }
 exports.PaginationDto = PaginationDto;
 //# sourceMappingURL=pagination.dto.js.map

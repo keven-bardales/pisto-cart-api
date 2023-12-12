@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 export class PaginationDto {
   constructor(public readonly page: number, public readonly limit: number, public readonly search: string, public readonly column: string, public readonly order: string, public readonly all = false) {}
 
@@ -24,5 +26,15 @@ export class PaginationDto {
     if (isNaN(payload?.limit)) throw new Error("El limite debe ser un numero");
 
     return new PaginationDto(payload?.page, payload?.limit, payload?.search, payload?.column, payload?.order, payload?.all);
+  }
+
+  get forPrisma() {
+    return {
+      orderBy: {
+        [this.column]: this.order,
+      },
+      skip: (this.page - 1) * this.limit,
+      take: this.limit,
+    };
   }
 }

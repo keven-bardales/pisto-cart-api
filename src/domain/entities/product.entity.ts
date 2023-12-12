@@ -39,12 +39,8 @@ export class ProductEntity {
       object.updatedAt,
       ProductStatusEntity.fromObject(object?.productState),
       ProductCategoryEntity.fromObject(object?.productCategory),
-      object?.orderDetails.map((orderDetail: any) =>
-        CartOrderDetailEntity.fromObject(orderDetail)
-      ),
-      object?.cartDetails.map((cartDetail: any) =>
-        CartDetailEntity.fromObject(cartDetail)
-      )
+      object?.orderDetails.map((orderDetail: any) => CartOrderDetailEntity.fromObject(orderDetail)),
+      object?.cartDetails.map((cartDetail: any) => CartDetailEntity.fromObject(cartDetail))
     );
   }
 }

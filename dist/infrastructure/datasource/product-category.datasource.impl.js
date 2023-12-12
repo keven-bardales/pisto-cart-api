@@ -16,6 +16,14 @@ class ProductCategoryDataSourceImpl {
         const productCategories = await data_1.prisma.productCategory.findMany();
         return productCategories.map((productCategory) => get_all_product_category_dto_1.GetAllProductCategoryDto.create(productCategory));
     }
+    async getById(id) {
+        const productCategory = await data_1.prisma.productCategory.findUnique({
+            where: {
+                id,
+            },
+        });
+        return get_all_product_category_dto_1.GetAllProductCategoryDto.create(productCategory);
+    }
 }
 exports.ProductCategoryDataSourceImpl = ProductCategoryDataSourceImpl;
 exports.productCategoryDataSource = new ProductCategoryDataSourceImpl();

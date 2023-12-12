@@ -1,4 +1,7 @@
+import { ProductCategoryEntity } from "@src/domain/entities/product-category.entity";
 import { ProductEntity } from "@src/domain/entities/product.entity";
+import { GetAllProductCategoryDto } from "../product-category/get-all-product-category.dto";
+import { GetAllProductStatusDto } from "../product-status/get-all-product-status.dto";
 
 export class GetAllProductDto {
   constructor(
@@ -13,8 +16,8 @@ export class GetAllProductDto {
     public readonly updatedAt: typeof ProductEntity.prototype.updatedAt,
     public readonly createdAt: typeof ProductEntity.prototype.createdAt,
     public readonly imageUrl?: typeof ProductEntity.prototype.imageUrl,
-    public readonly productStatus?: typeof ProductEntity.prototype.productStatus,
-    public readonly productCategory?: typeof ProductEntity.prototype.productCategory
+    public readonly productStatus?: GetAllProductStatusDto,
+    public productCategory?: GetAllProductCategoryDto
   ) {}
 
   static create(object: { [key: string]: any }): GetAllProductDto {
@@ -30,8 +33,8 @@ export class GetAllProductDto {
       object?.updatedAt,
       object?.createdAt,
       object?.imageUrl,
-      object?.productStatus,
-      object?.productCategory
+      GetAllProductStatusDto.fromObject(object?.productStatus),
+      GetAllProductCategoryDto.create(object?.productCategory)
     );
   }
 }

@@ -15,6 +15,14 @@ class ProductRepositoryImpl {
         const products = await this.dataSource.getAll(dto);
         return products;
     }
+    async getById(id) {
+        const product = await this.dataSource.getById(id);
+        return product;
+    }
+    update(id, dto) {
+        const product = this.dataSource.update(id, dto);
+        return product;
+    }
 }
 exports.ProductRepositoryImpl = ProductRepositoryImpl;
 exports.productRepository = new ProductRepositoryImpl(product_datasource_impl_1.productDataSource);

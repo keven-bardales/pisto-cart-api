@@ -5,6 +5,7 @@ import { ProductRepository } from "@src/domain/repositories/product-repository";
 import { productDataSource } from "@infrastructure/datasource/product.datasource.impl";
 import { PaginationDto } from "@src/domain/dtos/shared/pagination.dto";
 import { GetPaginatedDto } from "@src/domain/dtos/shared/get-paginated-dto";
+import { UpdateProductDto } from "@src/domain/dtos/product/update-product.dto";
 
 export class ProductRepositoryImpl implements ProductRepository {
   constructor(private readonly dataSource: ProductDataSource) {}
@@ -19,6 +20,18 @@ export class ProductRepositoryImpl implements ProductRepository {
     const products = await this.dataSource.getAll(dto);
 
     return products;
+  }
+
+  async getById(id: string): Promise<GetAllProductDto> {
+    const product = await this.dataSource.getById(id);
+
+    return product;
+  }
+
+  update(id: string, dto: UpdateProductDto): Promise<GetAllProductDto> {
+    const product = this.dataSource.update(id, dto);
+
+    return product;
   }
 }
 
