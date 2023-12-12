@@ -7,112 +7,49 @@ import { PaginationDto } from "@src/domain/dtos/shared/pagination.dto";
 
 export class ProductDataSourceImpl implements ProductDataSource {
   async getAll(dto: PaginationDto): Promise<GetPaginatedDto<GetAllProductDto>> {
-    const { page, limit, column, order, search, all } = dto;
-
-    if (all) {
-      const products = await prisma.product.findMany({
-        include: {
-          productCategory: true,
-        },
-        where: {
-          OR: [
-            {
-              name: {
-                contains: search,
-                mode: "insensitive",
-              },
-            },
-            {
-              productCategory: {
-                name: {
-                  contains: search,
-                  mode: "insensitive",
-                },
-              },
-            },
-          ],
-        },
-        orderBy: {
-          [column]: order,
-        },
-      });
-
-      return GetPaginatedDto.fromObject<GetAllProductDto>({
-        currentPage: 1,
-        hasNextPage: false,
-        hasPreviousPage: false,
-        items: products.map((product) => GetAllProductDto.create(product)),
-        limit: products.length,
-        nextPage: 1,
-        previousPage: 1,
-        totalItems: products.length,
-        totalPages: 1,
-      });
-    }
-
-    const productsAndTotalCount = await prisma.product.findMany({
+    const products = await prisma.product.findMany({
       include: {
         productCategory: true,
       },
+      skip: (dto.page - 1) * dto.limit,
+      take: dto.limit,
       where: {
-        OR: [
-          {
-            name: {
-              contains: search,
-              mode: "insensitive",
-            },
+        name: {
+          contains: dto.search,
+          mode: "insensitive",
+        },
+        productCategory: {
+          name: {
+            contains: dto.search,
+            mode: "insensitive",
           },
-          {
-            productCategory: {
-              name: {
-                contains: search,
-                mode: "insensitive",
-              },
-            },
-          },
-        ],
+        },
       },
       orderBy: {
-        [column]: order,
+        [dto.column]: dto.order,
       },
-      skip: (page - 1) * limit,
-      take: limit,
     });
 
-    const totalItems = await prisma.product.aggregate({
+    const totalItems = await prisma.product.count({
       where: {
-        OR: [
-          {
-            name: {
-              contains: search,
-              mode: "insensitive",
-            },
+        name: {
+          contains: dto.search,
+          mode: "insensitive",
+        },
+        productCategory: {
+          name: {
+            contains: dto.search,
+            mode: "insensitive",
           },
-          {
-            productCategory: {
-              name: {
-                contains: search,
-                mode: "insensitive",
-              },
-            },
-          },
-        ],
-      },
-      _count: {
-        name: true,
+        },
       },
     });
 
     return GetPaginatedDto.fromObject<GetAllProductDto>({
-      currentPage: page,
-      hasNextPage: productsAndTotalCount.length === limit,
-      hasPreviousPage: page > 1,
-      items: productsAndTotalCount.map((product) => GetAllProductDto.create(product)),
-      limit,
-      nextPage: page + 1,
-      previousPage: page - 1,
-      totalItems: totalItems._count.name,
-      totalPages: Math.ceil(totalItems._count.name / limit),
+      currentPage: dto.page,
+      items: products.map((product) => GetAllProductDto.create(product)),
+      limit: dto.limit,
+      totalItems,
     });
   }
 

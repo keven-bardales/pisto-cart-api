@@ -23,7 +23,12 @@ class GetPaginatedDto {
         this.limit = limit;
     }
     static fromObject(object) {
-        return new GetPaginatedDto(object.items, object.totalItems, object.currentPage, object.totalPages, object.hasNextPage, object.hasPreviousPage, object.nextPage, object.previousPage, object.limit);
+        const hasNextPage = object.currentPage < Math.ceil(object.totalItems / object.limit);
+        const hasPreviousPage = object.currentPage > 1;
+        const nextPage = object.currentPage + 1;
+        const previousPage = object.currentPage - 1;
+        const totalPages = Math.ceil(object.totalItems / object.limit);
+        return new GetPaginatedDto(object.items, object.totalItems, object.currentPage, totalPages, hasNextPage, hasPreviousPage, nextPage, previousPage, object.limit);
     }
 }
 exports.GetPaginatedDto = GetPaginatedDto;
