@@ -21,11 +21,7 @@ class TaxRateEntity {
         this.orderDetails = orderDetails;
     }
     static fromObject(object) {
-        return new TaxRateEntity(object.id, object.name, object.rate, object.createdAt, object.updatedAt, object.cartDetail
-            ? object.cartDetails.map((detail) => cart_detail_entity_1.CartDetailEntity.fromObject(detail))
-            : [], object.orderDetails
-            ? object.orderDetail.map((detail) => cart_order_detail_entity_1.CartOrderDetailEntity.fromObject(detail))
-            : []);
+        return new TaxRateEntity(object.id, object.name, object.rate, object.createdAt, object.updatedAt, object.cartDetail ? object.cartDetails.map((detail) => cart_detail_entity_1.CartDetailEntity.fromObject(detail)) : [], object.orderDetails ? object.orderDetail.map((detail) => cart_order_detail_entity_1.CartOrderDetailEntity.fromObject(detail)) : []);
     }
 }
 exports.TaxRateEntity = TaxRateEntity;

@@ -1,3 +1,4 @@
+import { generalStatusConstant } from "@src/domain/constants/product-status/product-status.constant";
 import { ProductEntity } from "@src/domain/entities/product.entity";
 
 export class CreateProductDto {
@@ -10,20 +11,11 @@ export class CreateProductDto {
     public readonly stock: typeof ProductEntity.prototype.stock,
     public readonly productCategoryId: typeof ProductEntity.prototype.productCategoryId,
     public readonly productStatusId: typeof ProductEntity.prototype.productStatusId,
-    public readonly imageUrl: typeof ProductEntity.prototype.imageUrl
+    public readonly imageUrl: typeof ProductEntity.prototype.imageUrl,
+    public readonly generalStatusId: typeof ProductEntity.prototype.generalStatusId
   ) {}
 
   static fromObject(obj: any): CreateProductDto {
-    return new CreateProductDto(
-      obj?.code,
-      obj?.name,
-      obj?.description,
-      obj?.price,
-      obj?.cost,
-      obj?.stock,
-      obj?.productCategoryId,
-      obj?.productStatusId,
-      obj?.imageUrl
-    );
+    return new CreateProductDto(obj?.code, obj?.name, obj?.description, obj?.price, obj?.cost, obj?.stock, obj?.productCategoryId, obj?.productStatusId, obj?.imageUrl, generalStatusConstant.ACTIVE.id);
   }
 }

@@ -43,9 +43,7 @@ class CartOrderDetailEntity {
         this.taxRate = taxRate;
     }
     static fromObject(object) {
-        return new CartOrderDetailEntity(object.id, object.orderId, object.productId, object.quantity, object.price, object.total, object.discount, object.tax, object.discountPerecentage, object.colorDiscountId, object.taxRateId, object.createdAt, object.updatedAt, object.product ? product_entity_1.ProductEntity.fromObject(object.product) : null, object.order ? cart_order_entity_1.CartOrderEntity.fromObject(object.order) : null, object.colorDiscount
-            ? color_discount_entity_1.ColorDiscountEntity.fromObject(object.colorDiscount)
-            : null, object.taxRate ? tax_rate_entity_1.TaxRateEntity.fromObject(object.taxRate) : null);
+        return new CartOrderDetailEntity(object.id, object.orderId, object.productId, object.quantity, object.price, object.total, object.discount, object.tax, object.discountPerecentage, object.colorDiscountId, object.taxRateId, object.createdAt, object.updatedAt, object.product ? product_entity_1.ProductEntity.fromObject(object.product) : null, object.order ? cart_order_entity_1.CartOrderEntity.fromObject(object.order) : null, object.colorDiscount ? color_discount_entity_1.ColorDiscountEntity.fromObject(object.colorDiscount) : null, object.taxRate ? tax_rate_entity_1.TaxRateEntity.fromObject(object.taxRate) : null);
     }
 }
 exports.CartOrderDetailEntity = CartOrderDetailEntity;

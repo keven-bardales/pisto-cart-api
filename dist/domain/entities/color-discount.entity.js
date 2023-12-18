@@ -21,11 +21,7 @@ class ColorDiscountEntity {
         this.cartDetails = cartDetails;
     }
     static fromObject(object) {
-        return new ColorDiscountEntity(object.id, object.name, object.discountPerecentage, object.createdAt, object.updatedAt, object.orderDetail
-            ? object.orderDetails.map((detail) => cart_order_detail_entity_1.CartOrderDetailEntity.fromObject(detail))
-            : [], object.cartDetail
-            ? object.cartDetails.map((detail) => cart_detail_entity_1.CartDetailEntity.fromObject(detail))
-            : []);
+        return new ColorDiscountEntity(object.id, object.name, object.discountPerecentage, object.createdAt, object.updatedAt, object.orderDetail ? object.orderDetails.map((detail) => cart_order_detail_entity_1.CartOrderDetailEntity.fromObject(detail)) : [], object.cartDetail ? object.cartDetails.map((detail) => cart_detail_entity_1.CartDetailEntity.fromObject(detail)) : []);
     }
 }
 exports.ColorDiscountEntity = ColorDiscountEntity;

@@ -16,8 +16,8 @@ export class CartOrderDetailEntity {
     public discountPercentage: number,
     public colorDiscountId: string,
     public taxRateId: number,
-    public createdAt: Date,
-    public updatedAt: Date,
+    public createdAt: string,
+    public updatedAt: string,
     public product: ProductEntity | null = null,
     public order: CartOrderEntity | null = null,
     public colorDiscount: ColorDiscountEntity | null = null,
@@ -41,9 +41,7 @@ export class CartOrderDetailEntity {
       object.updatedAt,
       object.product ? ProductEntity.fromObject(object.product) : null,
       object.order ? CartOrderEntity.fromObject(object.order) : null,
-      object.colorDiscount
-        ? ColorDiscountEntity.fromObject(object.colorDiscount)
-        : null,
+      object.colorDiscount ? ColorDiscountEntity.fromObject(object.colorDiscount) : null,
       object.taxRate ? TaxRateEntity.fromObject(object.taxRate) : null
     );
   }

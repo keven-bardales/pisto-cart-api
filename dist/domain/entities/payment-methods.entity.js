@@ -17,9 +17,7 @@ class PaymentMethodsEntity {
         this.cartOrders = cartOrders;
     }
     static fromObject(object) {
-        return new PaymentMethodsEntity(object.id, object.name, object.createdAt, object.updatedAt, object.cartOrders
-            ? object.cartOrders.map((order) => cart_order_entity_1.CartOrderEntity.fromObject(order))
-            : []);
+        return new PaymentMethodsEntity(object.id, object.name, object.createdAt, object.updatedAt, object.cartOrders ? object.cartOrders.map((order) => cart_order_entity_1.CartOrderEntity.fromObject(order)) : []);
     }
 }
 exports.PaymentMethodsEntity = PaymentMethodsEntity;

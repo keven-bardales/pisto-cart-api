@@ -23,6 +23,7 @@ const productIncludes = {
         },
     },
     productStatus: true,
+    generalStatus: true,
 };
 class ProductDataSourceImpl {
     async getAll(dto) {

@@ -11,11 +11,12 @@ datasource db {
 }
 
 model GeneralStatus {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   user      User[]
+  Product   Product[]
 }
 
 model User {
@@ -75,10 +76,12 @@ model Product {
   imageUrl          String
   productCategoryId String
   productStatusId   Int
+  generalStatusId   Int
   updatedAt         DateTime          @updatedAt
   createdAt         DateTime          @default(now())
   productStatus     ProductStatus     @relation(fields: [productStatusId], references: [id])
   productCategory   ProductCategory   @relation(fields: [productCategoryId], references: [id])
+  generalStatus     GeneralStatus     @relation(fields: [generalStatusId], references: [id])
   orderDetails      CartOrderDetail[]
   cartDetails       CartDetail[]
 

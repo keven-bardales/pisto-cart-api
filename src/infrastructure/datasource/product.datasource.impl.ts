@@ -26,6 +26,7 @@ const productIncludes: Prisma.ProductInclude = {
     },
   },
   productStatus: true,
+  generalStatus: true,
 };
 
 export class ProductDataSourceImpl implements ProductDataSource {

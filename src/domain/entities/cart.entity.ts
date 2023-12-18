@@ -13,8 +13,8 @@ export class CartEntity {
     public tax: number,
     public userId: string,
     public cartStatusId: number,
-    public createdAt: Date,
-    public updatedAt: Date,
+    public createdAt: string,
+    public updatedAt: string,
     public user: UserEntity | null = null,
     public cartStatus: CartStatusEntity | null = null,
     public cartDetail: CartDetailEntity[] = []
@@ -35,11 +35,7 @@ export class CartEntity {
       object.updatedAt,
       object.user ? UserEntity.fromObject(object.user) : null,
       object.cartStatus ? CartStatusEntity.fromObject(object.cartStatus) : null,
-      object.cartDetail
-        ? object.cartDetail.map((detail: any) =>
-            CartDetailEntity.fromObject(detail)
-          )
-        : []
+      object.cartDetail ? object.cartDetail.map((detail: any) => CartDetailEntity.fromObject(detail)) : []
     );
   }
 }

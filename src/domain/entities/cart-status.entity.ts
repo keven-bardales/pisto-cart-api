@@ -4,20 +4,12 @@ export class CartStatusEntity {
   constructor(
     public id: number,
     public name: string,
-    public createdAt: Date,
-    public updatedAt: Date,
+    public createdAt: string,
+    public updatedAt: string,
     public carts: CartEntity[] = [] // Puede contener un array de CartEntity
   ) {}
 
   static fromObject(object: any): CartStatusEntity {
-    return new CartStatusEntity(
-      object.id,
-      object.name,
-      object.createdAt,
-      object.updatedAt,
-      object.carts
-        ? object.carts.map((cart: any) => CartEntity.fromObject(cart))
-        : []
-    );
+    return new CartStatusEntity(object.id, object.name, object.createdAt, object.updatedAt, object.carts ? object.carts.map((cart: any) => CartEntity.fromObject(cart)) : []);
   }
 }

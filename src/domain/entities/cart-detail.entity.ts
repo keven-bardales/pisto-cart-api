@@ -11,8 +11,8 @@ export class CartDetailEntity {
     public productId: string,
     public taxRateId: number,
     public cartId: string,
-    public createdAt: Date,
-    public updatedAt: Date,
+    public createdAt: string,
+    public updatedAt: string,
     public product: ProductEntity | null = null,
     public colorDiscount: ColorDiscountEntity | null = null,
     public cart: CartEntity | null = null,
@@ -30,9 +30,7 @@ export class CartDetailEntity {
       object.createdAt,
       object.updatedAt,
       object.product ? ProductEntity.fromObject(object.product) : null,
-      object.colorDiscount
-        ? ColorDiscountEntity.fromObject(object.colorDiscount)
-        : null,
+      object.colorDiscount ? ColorDiscountEntity.fromObject(object.colorDiscount) : null,
       object.cart ? CartEntity.fromObject(object.cart) : null,
       object.taxRate ? TaxRateEntity.fromObject(object.taxRate) : null
     );
