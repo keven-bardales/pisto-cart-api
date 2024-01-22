@@ -23,7 +23,7 @@ class CartOrderDetailEntity {
     order;
     colorDiscount;
     taxRate;
-    constructor(id, orderId, productId, quantity, price, total, discount, tax, discountPercentage, colorDiscountId, taxRateId, createdAt, updatedAt, product = null, order = null, colorDiscount = null, taxRate = null) {
+    constructor(id, orderId, productId, quantity, price, total, discount, tax, discountPercentage, colorDiscountId, taxRateId, createdAt, updatedAt, product, order, colorDiscount, taxRate) {
         this.id = id;
         this.orderId = orderId;
         this.productId = productId;

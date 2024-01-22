@@ -11,7 +11,7 @@ class ProductRoutes {
     static mainRoute = "/product";
     static get routes() {
         const router = (0, express_1.Router)();
-        router.get(`${this.mainRoute}/getAll`, [auth_middleware_1.authMiddleware], product_controller_1.productController.getAll);
+        router.get(`${this.mainRoute}/getAll`, product_controller_1.productController.getAll);
         router.post(`${this.mainRoute}/create`, [(0, validate_request_middleware_1.validate)(create_product_controller_1.createProductSchema)], product_controller_1.productController.create);
         router.get(`${this.mainRoute}/getById/:id`, [auth_middleware_1.authMiddleware, (0, validate_request_middleware_1.validate)(get_by_id_schema_1.getByIdProductSchema)], product_controller_1.productController.getById);
         router.put(`${this.mainRoute}/update/:id`, [auth_middleware_1.authMiddleware, (0, validate_request_middleware_1.validate)(get_by_id_schema_1.getByIdProductSchema)], product_controller_1.productController.update);

@@ -18,7 +18,7 @@ class CartDetailEntity {
     colorDiscount;
     cart;
     taxRate;
-    constructor(id, quantity, colorDiscountId, productId, taxRateId, cartId, createdAt, updatedAt, product = null, colorDiscount = null, cart = null, taxRate = null) {
+    constructor(id, quantity, colorDiscountId, productId, taxRateId, cartId, createdAt, updatedAt, product = null, colorDiscount, cart, taxRate) {
         this.id = id;
         this.quantity = quantity;
         this.colorDiscountId = colorDiscountId;

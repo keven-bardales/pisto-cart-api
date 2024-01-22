@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.productDataSource = exports.ProductDataSourceImpl = void 0;
+exports.ProductDataSourceImpl = void 0;
 const data_1 = require("@src/data");
 const get_all_product_dto_1 = require("@src/domain/dtos/product/get-all-product.dto");
 const get_paginated_dto_1 = require("@src/domain/dtos/shared/get-paginated-dto");
@@ -144,5 +144,4 @@ class ProductDataSourceImpl {
     }
 }
 exports.ProductDataSourceImpl = ProductDataSourceImpl;
-exports.productDataSource = new ProductDataSourceImpl();
 //# sourceMappingURL=product.datasource.impl.js.map

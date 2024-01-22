@@ -43,7 +43,6 @@ export class UserDataSourceImpl implements UserDataSource {
         lastName: user?.lastName,
         password: user?.password,
         rolId: user?.rolId,
-        googleId: user?.googleId,
         imageUrl: user?.imageUrl,
         generalStatusId: user?.generalStatusId,
       },

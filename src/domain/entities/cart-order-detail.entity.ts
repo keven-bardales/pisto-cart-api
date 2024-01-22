@@ -5,7 +5,7 @@ import { CartOrderEntity } from "@domain/entities/cart-order.entity";
 
 export class CartOrderDetailEntity {
   constructor(
-    public id: string,
+    public id: number,
     public orderId: string,
     public productId: string,
     public quantity: number,
@@ -18,10 +18,10 @@ export class CartOrderDetailEntity {
     public taxRateId: number,
     public createdAt: string,
     public updatedAt: string,
-    public product: ProductEntity | null = null,
-    public order: CartOrderEntity | null = null,
-    public colorDiscount: ColorDiscountEntity | null = null,
-    public taxRate: TaxRateEntity | null = null
+    public product?: ProductEntity | null,
+    public order?: CartOrderEntity | null,
+    public colorDiscount?: ColorDiscountEntity | null,
+    public taxRate?: TaxRateEntity | null
   ) {}
 
   static fromObject(object: any): CartOrderDetailEntity {

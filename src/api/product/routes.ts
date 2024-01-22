@@ -11,7 +11,7 @@ export class ProductRoutes {
   static get routes() {
     const router = Router();
 
-    router.get(`${this.mainRoute}/getAll`, [authMiddleware], productController.getAll);
+    router.get(`${this.mainRoute}/getAll`, productController.getAll);
 
     router.post(`${this.mainRoute}/create`, [validate(createProductSchema)], productController.create);
 

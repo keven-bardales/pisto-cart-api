@@ -3,10 +3,11 @@ import { ProductCategoryEntity } from "@domain/entities/product-category.entity"
 import { CartOrderDetailEntity } from "@domain/entities/cart-order-detail.entity";
 import { CartDetailEntity } from "@domain/entities/cart-detail.entity";
 import { GeneralStatusEntity } from "./general-status.entity";
+import { Prisma } from "@prisma/client";
 
 export class ProductEntity {
   constructor(
-    public id: string,
+    public id: number,
     public code: string,
     public name: string,
     public description: string,
@@ -14,7 +15,7 @@ export class ProductEntity {
     public cost: number,
     public stock: number,
     public imageUrl: string,
-    public productCategoryId: string,
+    public productCategoryId: number,
     public productStatusId: number,
     public generalStatusId: number,
     public createdAt: string,

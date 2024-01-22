@@ -4,7 +4,6 @@ import { GetAllUserDto } from "./get-all-user.dto";
 export class UserWithPasswordDto {
   constructor(
     public id: typeof UserEntity.prototype.id,
-    public googleId: typeof UserEntity.prototype.googleId,
     public firstName: typeof UserEntity.prototype.firstName,
     public lastName: typeof UserEntity.prototype.lastName,
     public fullName: typeof UserEntity.prototype.fullName,
@@ -21,7 +20,6 @@ export class UserWithPasswordDto {
   static fromObject(object: any): UserWithPasswordDto {
     return new UserWithPasswordDto(
       object?.id,
-      object?.googleId,
       object?.firstName,
       object?.lastName,
       object?.fullName,

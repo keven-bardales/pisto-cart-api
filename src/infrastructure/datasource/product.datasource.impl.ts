@@ -130,7 +130,7 @@ export class ProductDataSourceImpl implements ProductDataSource {
     return GetAllProductDto.create(product);
   }
 
-  async getById(id: string): Promise<GetAllProductDto> {
+  async getById(id: number): Promise<GetAllProductDto> {
     const product = await prisma.product.findUnique({
       where: {
         id,
@@ -145,7 +145,7 @@ export class ProductDataSourceImpl implements ProductDataSource {
     return GetAllProductDto.create(product);
   }
 
-  async update(id: string, dto: UpdateProductDto): Promise<GetAllProductDto> {
+  async update(id: number, dto: UpdateProductDto): Promise<GetAllProductDto> {
     const product = await prisma.product.update({
       where: {
         id,
@@ -159,5 +159,3 @@ export class ProductDataSourceImpl implements ProductDataSource {
     return GetAllProductDto.create(product);
   }
 }
-
-export const productDataSource = new ProductDataSourceImpl();

@@ -8,8 +8,7 @@ class CartStatusEntity {
     createdAt;
     updatedAt;
     carts;
-    constructor(id, name, createdAt, updatedAt, carts = [] // Puede contener un array de CartEntity
-    ) {
+    constructor(id, name, createdAt, updatedAt, carts) {
         this.id = id;
         this.name = name;
         this.createdAt = createdAt;
@@ -17,7 +16,7 @@ class CartStatusEntity {
         this.carts = carts;
     }
     static fromObject(object) {
-        return new CartStatusEntity(object.id, object.name, object.createdAt, object.updatedAt, object.carts ? object.carts.map((cart) => cart_entity_1.CartEntity.fromObject(cart)) : []);
+        return new CartStatusEntity(object.id, object.name, object.createdAt, object.updatedAt, object.carts ? object.carts.map((cart) => cart_entity_1.CartEntity.fromObject(cart)) : null);
     }
 }
 exports.CartStatusEntity = CartStatusEntity;

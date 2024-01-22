@@ -8,6 +8,7 @@ const get_all_products_use_case_1 = require("@src/domain/use-cases/product/get-a
 const get_by_id_use_case_1 = require("@src/domain/use-cases/product/get-by-id.use-case");
 const update_product_use_case_1 = require("@src/domain/use-cases/product/update-product.use-case");
 const response_1 = require("@src/domain/wrappers/response");
+const product_datasource_impl_1 = require("@src/infrastructure/datasource/product.datasource.impl");
 const product_repository_impl_1 = require("@src/infrastructure/repositories/product.repository.impl");
 class ProductController {
     productRepository;
@@ -77,5 +78,5 @@ class ProductController {
     };
 }
 exports.ProductController = ProductController;
-exports.productController = new ProductController(product_repository_impl_1.productRepository);
+exports.productController = new ProductController(new product_repository_impl_1.ProductRepositoryImpl(new product_datasource_impl_1.ProductDataSourceImpl()));
 //# sourceMappingURL=product.controller.js.map

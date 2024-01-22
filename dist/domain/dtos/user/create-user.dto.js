@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUserDto = void 0;
 class CreateUserDto {
-    googleId;
     firstName;
     lastName;
     fullName;
@@ -12,8 +11,7 @@ class CreateUserDto {
     generalStatusId;
     password;
     confirmPassword;
-    constructor(googleId, firstName, lastName, fullName, email, imageUrl, rolId, generalStatusId, password, confirmPassword) {
-        this.googleId = googleId;
+    constructor(firstName, lastName, fullName, email, imageUrl, rolId, generalStatusId, password, confirmPassword) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.fullName = fullName;
@@ -32,7 +30,7 @@ class CreateUserDto {
     }
     static create(props) {
         const { googleId, firstName, lastName, email, imageUrl, rolId, generalStatusId, password, confirmPassword } = props;
-        return new CreateUserDto(googleId, firstName, lastName, `${firstName} ${lastName}`, email, imageUrl, rolId, generalStatusId, password, confirmPassword);
+        return new CreateUserDto(firstName, lastName, `${firstName} ${lastName}`, email, imageUrl, rolId, generalStatusId, password, confirmPassword);
     }
 }
 exports.CreateUserDto = CreateUserDto;

@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetAllUserDto = void 0;
 class GetAllUserDto {
     id;
-    googleId;
     firstName;
     lastName;
     fullName;
@@ -14,9 +13,8 @@ class GetAllUserDto {
     createdAt;
     updatedAt;
     rol;
-    constructor(id, googleId, firstName, lastName, fullName, email, imageUrl, rolId, generalStatusId, createdAt, updatedAt, rol) {
+    constructor(id, firstName, lastName, fullName, email, imageUrl, rolId, generalStatusId, createdAt, updatedAt, rol) {
         this.id = id;
-        this.googleId = googleId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.fullName = fullName;
@@ -29,7 +27,7 @@ class GetAllUserDto {
         this.rol = rol;
     }
     static fromObject(object) {
-        return new GetAllUserDto(object?.id, object?.googleId, object?.firstName, object?.lastName, object?.fullName, object?.email, object?.imageUrl, object?.rolId, object?.generalStatusId, object?.createdAt, object?.updatedAt, object?.rol);
+        return new GetAllUserDto(object?.id, object?.firstName, object?.lastName, object?.fullName, object?.email, object?.imageUrl, object?.rolId, object?.generalStatusId, object?.createdAt, object?.updatedAt, object?.rol);
     }
 }
 exports.GetAllUserDto = GetAllUserDto;

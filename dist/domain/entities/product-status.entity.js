@@ -16,7 +16,7 @@ class ProductStatusEntity {
         this.products = products;
     }
     static fromObject(object) {
-        return new ProductStatusEntity(object.id, object.name, object.createdAt, object.updatedAt, object?.products ? object.products.map((product) => product_entity_1.ProductEntity.fromObject(product)) : []);
+        return new ProductStatusEntity(object.id, object.name, object.createdAt, object.updatedAt, object?.products ? object.products.map((product) => product_entity_1.ProductEntity.fromObject(product)) : null);
     }
 }
 exports.ProductStatusEntity = ProductStatusEntity;

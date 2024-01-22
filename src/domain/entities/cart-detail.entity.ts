@@ -14,9 +14,9 @@ export class CartDetailEntity {
     public createdAt: string,
     public updatedAt: string,
     public product: ProductEntity | null = null,
-    public colorDiscount: ColorDiscountEntity | null = null,
-    public cart: CartEntity | null = null,
-    public taxRate: TaxRateEntity | null = null
+    public colorDiscount?: ColorDiscountEntity | null,
+    public cart?: CartEntity,
+    public taxRate?: TaxRateEntity | null
   ) {}
 
   static fromObject(object: any): CartDetailEntity {

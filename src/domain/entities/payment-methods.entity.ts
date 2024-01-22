@@ -6,10 +6,16 @@ export class PaymentMethodsEntity {
     public name: string,
     public createdAt: string,
     public updatedAt: string,
-    public cartOrders: CartOrderEntity[] = [] // Puede contener un array de CartOrderEntity
+    public cartOrders?: CartOrderEntity[] // Puede contener un array de CartOrderEntity
   ) {}
 
   static fromObject(object: any): PaymentMethodsEntity {
-    return new PaymentMethodsEntity(object.id, object.name, object.createdAt, object.updatedAt, object.cartOrders ? object.cartOrders.map((order: any) => CartOrderEntity.fromObject(order)) : []);
+    return new PaymentMethodsEntity(
+      object.id,
+      object.name,
+      object.createdAt,
+      object.updatedAt,
+      object.cartOrders ? object.cartOrders.map((order: any) => CartOrderEntity.fromObject(order)) : null
+    );
   }
 }

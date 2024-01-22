@@ -15,9 +15,9 @@ export class CartEntity {
     public cartStatusId: number,
     public createdAt: string,
     public updatedAt: string,
-    public user: UserEntity | null = null,
-    public cartStatus: CartStatusEntity | null = null,
-    public cartDetail: CartDetailEntity[] = []
+    public user?: UserEntity,
+    public cartStatus?: CartStatusEntity,
+    public cartDetail?: CartDetailEntity[]
   ) {}
 
   static fromObject(object: any): CartEntity {
@@ -35,7 +35,7 @@ export class CartEntity {
       object.updatedAt,
       object.user ? UserEntity.fromObject(object.user) : null,
       object.cartStatus ? CartStatusEntity.fromObject(object.cartStatus) : null,
-      object.cartDetail ? object.cartDetail.map((detail: any) => CartDetailEntity.fromObject(detail)) : []
+      object.cartDetail ? object.cartDetail.map((detail: any) => CartDetailEntity.fromObject(detail)) : null
     );
   }
 }

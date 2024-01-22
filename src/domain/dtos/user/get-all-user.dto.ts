@@ -1,9 +1,9 @@
 import { UserEntity } from "@domain/entities/user.entity";
+import { GetAllUserRolDto } from "../user-rol/get-all-rol.dto";
 
 export class GetAllUserDto {
   constructor(
     public id: typeof UserEntity.prototype.id,
-    public googleId: typeof UserEntity.prototype.googleId,
     public firstName: typeof UserEntity.prototype.firstName,
     public lastName: typeof UserEntity.prototype.lastName,
     public fullName: typeof UserEntity.prototype.fullName,
@@ -13,13 +13,12 @@ export class GetAllUserDto {
     public generalStatusId: typeof UserEntity.prototype.generalStatusId,
     public createdAt: typeof UserEntity.prototype.createdAt,
     public updatedAt: typeof UserEntity.prototype.updatedAt,
-    public rol: typeof UserEntity.prototype.rol
+    public rol: GetAllUserRolDto
   ) {}
 
   static fromObject(object: any): GetAllUserDto {
     return new GetAllUserDto(
       object?.id,
-      object?.googleId,
       object?.firstName,
       object?.lastName,
       object?.fullName,

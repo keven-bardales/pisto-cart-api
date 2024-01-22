@@ -16,9 +16,9 @@ export class CartOrderEntity {
     public tax: number,
     public createdAt: string,
     public updatedAt: string,
-    public user: UserEntity | null = null,
-    public paymentMethod: PaymentMethodsEntity | null = null,
-    public orderDetail: CartOrderDetailEntity[] = [] // Puede contener un array de OrderDetailEntity
+    public user?: UserEntity | null,
+    public paymentMethod?: PaymentMethodsEntity | null,
+    public orderDetail?: CartOrderDetailEntity[] // Puede contener un array de OrderDetailEntity
   ) {}
 
   static fromObject(object: any): CartOrderEntity {
@@ -37,7 +37,7 @@ export class CartOrderEntity {
       object.updatedAt,
       object.user ? UserEntity.fromObject(object.user) : null,
       object.paymentMethod ? PaymentMethodsEntity.fromObject(object.paymentMethod) : null,
-      object.orderDetail ? object.orderDetail.map((detail: any) => CartOrderDetailEntity.fromObject(detail)) : []
+      object.orderDetail ? object.orderDetail.map((detail: any) => CartOrderDetailEntity.fromObject(detail)) : null
     );
   }
 }

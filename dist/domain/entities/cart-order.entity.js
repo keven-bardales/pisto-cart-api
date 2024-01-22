@@ -20,7 +20,7 @@ class CartOrderEntity {
     user;
     paymentMethod;
     orderDetail;
-    constructor(id, userId, paymentMethodId, quantity, total, subTotal, subTotalDiscount, subTotalTax, discount, tax, createdAt, updatedAt, user = null, paymentMethod = null, orderDetail = [] // Puede contener un array de OrderDetailEntity
+    constructor(id, userId, paymentMethodId, quantity, total, subTotal, subTotalDiscount, subTotalTax, discount, tax, createdAt, updatedAt, user, paymentMethod, orderDetail // Puede contener un array de OrderDetailEntity
     ) {
         this.id = id;
         this.userId = userId;
@@ -39,7 +39,7 @@ class CartOrderEntity {
         this.orderDetail = orderDetail;
     }
     static fromObject(object) {
-        return new CartOrderEntity(object.id, object.userId, object.paymentMethodId, object.quantity, object.total, object.subTotal, object.subTotalDiscount, object.subTotalTax, object.discount, object.tax, object.createdAt, object.updatedAt, object.user ? user_entity_1.UserEntity.fromObject(object.user) : null, object.paymentMethod ? payment_methods_entity_1.PaymentMethodsEntity.fromObject(object.paymentMethod) : null, object.orderDetail ? object.orderDetail.map((detail) => cart_order_detail_entity_1.CartOrderDetailEntity.fromObject(detail)) : []);
+        return new CartOrderEntity(object.id, object.userId, object.paymentMethodId, object.quantity, object.total, object.subTotal, object.subTotalDiscount, object.subTotalTax, object.discount, object.tax, object.createdAt, object.updatedAt, object.user ? user_entity_1.UserEntity.fromObject(object.user) : null, object.paymentMethod ? payment_methods_entity_1.PaymentMethodsEntity.fromObject(object.paymentMethod) : null, object.orderDetail ? object.orderDetail.map((detail) => cart_order_detail_entity_1.CartOrderDetailEntity.fromObject(detail)) : null);
     }
 }
 exports.CartOrderEntity = CartOrderEntity;

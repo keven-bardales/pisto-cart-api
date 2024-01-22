@@ -26,7 +26,7 @@ const authMiddleware = async (req, res, next) => {
             errors: [],
         }));
     }
-    const user = user_repository_impl_1.userRepository.getById(payload.id);
+    const user = await user_repository_impl_1.userRepository.getById(payload.id);
     if (!user) {
         return res.status(401).json(response_1.ApiResponse.unauthorized({
             message: "El token de autenticación no es valido",

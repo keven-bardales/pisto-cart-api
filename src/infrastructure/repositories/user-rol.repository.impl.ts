@@ -15,7 +15,7 @@ export class UserRolRepositoryImpl implements UserRolRepository {
     return this.dataSource.create(dto);
   }
 
-  getById(id: string): Promise<GetAllUserRolDto> {
+  getById(id: number): Promise<GetAllUserRolDto> {
     return this.dataSource.getById(id);
   }
 }

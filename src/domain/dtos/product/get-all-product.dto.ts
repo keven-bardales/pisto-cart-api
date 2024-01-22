@@ -5,18 +5,18 @@ import { GetAllProductStatusDto } from "../product-status/get-all-product-status
 
 export class GetAllProductDto {
   constructor(
-    public readonly id: typeof ProductEntity.prototype.id,
-    public readonly code: typeof ProductEntity.prototype.code,
-    public readonly name: typeof ProductEntity.prototype.name,
-    public readonly description: typeof ProductEntity.prototype.description,
-    public readonly price: typeof ProductEntity.prototype.price,
-    public readonly stock: typeof ProductEntity.prototype.stock,
-    public readonly productCategoryId: typeof ProductEntity.prototype.productCategoryId,
-    public readonly productStatusId: typeof ProductEntity.prototype.productStatusId,
-    public readonly updatedAt: typeof ProductEntity.prototype.updatedAt,
-    public readonly createdAt: typeof ProductEntity.prototype.createdAt,
-    public readonly imageUrl?: typeof ProductEntity.prototype.imageUrl,
-    public readonly productStatus?: GetAllProductStatusDto,
+    public id: typeof ProductEntity.prototype.id,
+    public code: typeof ProductEntity.prototype.code,
+    public name: typeof ProductEntity.prototype.name,
+    public description: typeof ProductEntity.prototype.description,
+    public price: typeof ProductEntity.prototype.price,
+    public stock: typeof ProductEntity.prototype.stock,
+    public productCategoryId: typeof ProductEntity.prototype.productCategoryId,
+    public productStatusId: typeof ProductEntity.prototype.productStatusId,
+    public updatedAt: typeof ProductEntity.prototype.updatedAt,
+    public createdAt: typeof ProductEntity.prototype.createdAt,
+    public imageUrl?: typeof ProductEntity.prototype.imageUrl,
+    public productStatus?: GetAllProductStatusDto,
     public productCategory?: GetAllProductCategoryDto
   ) {}
 

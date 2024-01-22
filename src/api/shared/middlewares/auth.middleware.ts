@@ -37,7 +37,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     );
   }
 
-  const user = userRepository.getById(payload.id);
+  const user = await userRepository.getById(payload.id);
 
   if (!user) {
     return res.status(401).json(

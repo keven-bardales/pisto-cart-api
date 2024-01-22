@@ -7,8 +7,8 @@ import { GetAllProductUseCase } from "@src/domain/use-cases/product/get-all-prod
 import { GetByIdProductUseCase } from "@src/domain/use-cases/product/get-by-id.use-case";
 import { UpdateProductUseCase } from "@src/domain/use-cases/product/update-product.use-case";
 import { ApiResponse } from "@src/domain/wrappers/response";
-import { productCategoryRepository } from "@src/infrastructure/repositories/product-category.repository.impl";
-import { productRepository } from "@src/infrastructure/repositories/product.repository.impl";
+import { ProductDataSourceImpl } from "@src/infrastructure/datasource/product.datasource.impl";
+import { ProductRepositoryImpl } from "@src/infrastructure/repositories/product.repository.impl";
 import { NextFunction, Request, Response } from "express";
 
 export class ProductController {
@@ -94,4 +94,4 @@ export class ProductController {
   };
 }
 
-export const productController = new ProductController(productRepository);
+export const productController = new ProductController(new ProductRepositoryImpl(new ProductDataSourceImpl()));

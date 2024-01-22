@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productCategoryRepository = exports.ProductCategoryImpl = void 0;
+const product_category_entity_1 = require("@src/domain/entities/product-category.entity");
 const product_category_datasource_impl_1 = require("@src/infrastructure/datasource/product-category.datasource.impl");
 class ProductCategoryImpl {
     productCategoryDataSource;
@@ -14,7 +15,7 @@ class ProductCategoryImpl {
         return this.productCategoryDataSource.create(dto);
     }
     getById(id) {
-        return this.productCategoryDataSource.getById(id);
+        return this.productCategoryDataSource.getById(product_category_entity_1.ProductCategoryEntity.prototype.id);
     }
 }
 exports.ProductCategoryImpl = ProductCategoryImpl;

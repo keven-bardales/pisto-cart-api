@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.productRepository = exports.ProductRepositoryImpl = void 0;
-const product_datasource_impl_1 = require("@infrastructure/datasource/product.datasource.impl");
+exports.ProductRepositoryImpl = void 0;
 class ProductRepositoryImpl {
     dataSource;
     constructor(dataSource) {
@@ -25,5 +24,4 @@ class ProductRepositoryImpl {
     }
 }
 exports.ProductRepositoryImpl = ProductRepositoryImpl;
-exports.productRepository = new ProductRepositoryImpl(product_datasource_impl_1.productDataSource);
 //# sourceMappingURL=product.repository.impl.js.map

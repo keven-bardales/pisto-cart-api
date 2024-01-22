@@ -20,7 +20,7 @@ export class ProductCategoryDataSourceImpl implements ProductCategoryDataSource 
     return productCategories.map((productCategory) => GetAllProductCategoryDto.create(productCategory));
   }
 
-  async getById(id: string): Promise<GetAllProductCategoryDto> {
+  async getById(id: number): Promise<GetAllProductCategoryDto> {
     const productCategory = await prisma.productCategory.findUnique({
       where: {
         id,

@@ -7,6 +7,6 @@ import { UpdateProductDto } from "../dtos/product/update-product.dto";
 export abstract class ProductDataSource {
   abstract getAll(dto: PaginationDto): Promise<GetPaginatedDto<GetAllProductDto>>;
   abstract create(dto: CreateProductDto): Promise<GetAllProductDto>;
-  abstract getById(id: string): Promise<GetAllProductDto>;
-  abstract update(id: string, dto: UpdateProductDto): Promise<GetAllProductDto>;
+  abstract getById(id: number): Promise<GetAllProductDto>;
+  abstract update(id: number, dto: UpdateProductDto): Promise<GetAllProductDto>;
 }
