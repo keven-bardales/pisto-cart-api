@@ -25,7 +25,8 @@ class PaginationDto {
         order: "",
         all: false,
     }) {
-        if (payload?.all)
+        payload.all = payload?.all === "true" ? true : false;
+        if (payload?.all === true)
             return new PaginationDto(1, 0, "", "", "", true);
         payload.page = parseInt(payload.page);
         payload.limit = parseInt(payload.limit);
@@ -40,13 +41,16 @@ class PaginationDto {
         return new PaginationDto(payload?.page, payload?.limit, payload?.search, payload?.column, payload?.order, payload?.all);
     }
     get forPrisma() {
-        return {
-            orderBy: {
-                [this.column]: this.order,
-            },
+        const object = {
             skip: (this.page - 1) * this.limit,
             take: this.limit,
         };
+        if (this.column && this.order) {
+            object.orderBy = {
+                [this.column]: this.order,
+            };
+        }
+        return object;
     }
 }
 exports.PaginationDto = PaginationDto;

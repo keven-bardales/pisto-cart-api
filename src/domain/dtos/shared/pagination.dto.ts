@@ -12,7 +12,7 @@ export class PaginationDto {
   ) {}
 
   static fromObject(
-    payload: { page?: any; limit?: any; search?: string; column?: string; order?: string; all?: boolean } = {
+    payload: { page?: any; limit?: any; search?: string; column?: string; order?: string; all?: boolean | string } = {
       page: 1,
       limit: 10,
       search: "",
@@ -21,7 +21,9 @@ export class PaginationDto {
       all: false,
     }
   ): PaginationDto {
-    if (payload?.all) return new PaginationDto(1, 0, "", "", "", true);
+    payload.all = payload?.all === "true" ? true : false;
+
+    if (payload?.all === true) return new PaginationDto(1, 0, "", "", "", true);
 
     payload.page = parseInt(payload.page as string);
 
@@ -39,12 +41,16 @@ export class PaginationDto {
   }
 
   get forPrisma() {
-    return {
-      orderBy: {
-        [this.column]: this.order,
-      },
+    const object: any = {
       skip: (this.page - 1) * this.limit,
       take: this.limit,
     };
+
+    if (this.column && this.order) {
+      object.orderBy = {
+        [this.column]: this.order,
+      };
+    }
+    return object;
   }
 }
