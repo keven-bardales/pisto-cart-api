@@ -64,7 +64,7 @@ class ProductController {
     update = (req, res, next) => {
         const updateProductDto = update_product_dto_1.UpdateProductDto.create(req.body);
         new update_product_use_case_1.UpdateProductUseCase(this.productRepository)
-            .execute(req.params.id, updateProductDto)
+            .execute(updateProductDto)
             .then((product) => {
             return res.status(200).json(response_1.ApiResponse.success({
                 data: product,

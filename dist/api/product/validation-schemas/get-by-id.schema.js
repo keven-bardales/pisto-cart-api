@@ -28,12 +28,11 @@ const z = __importStar(require("zod"));
 exports.getByIdProductSchema = z.object({
     params: z.object({
         id: z
-            .string({
-            invalid_type_error: "El id debe ser un texto",
-            required_error: "El id es requerido",
+            .number({
+            required_error: "id is required",
         })
-            .uuid({
-            message: "El id debe ser un UUID válido",
+            .int({
+            message: "id del producto debe ser un entero",
         }),
     }),
 });

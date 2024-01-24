@@ -4,7 +4,13 @@ import { ProductRepository } from "@src/domain/repositories/product-repository";
 export class CreateProductUseCase {
   constructor(private readonly productRepository: ProductRepository) {}
 
-  exucute(dto: CreateProductDto) {
+  async exucute(dto: CreateProductDto) {
+    const productExists = await this.productRepository.findByCode(dto.code);
+
+    if (productExists) {
+      throw new Error("Ya existe un producto con ese codigo");
+    }
+
     return this.productRepository.create(dto);
   }
 }

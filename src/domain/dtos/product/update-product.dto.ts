@@ -1,17 +1,30 @@
+import { ProductEntity } from "@src/domain/entities/product.entity";
+
 export class UpdateProductDto {
   constructor(
-    public readonly name: string,
-    public readonly code: string,
-    public readonly description: string,
-    public readonly price: number,
-    public readonly stock: number,
-    public readonly productCategoryId: string,
-    public readonly productStatusId: number,
-    public readonly imageUrl?: string
+    public id: typeof ProductEntity.prototype.id,
+    public name: typeof ProductEntity.prototype.name,
+    public code: typeof ProductEntity.prototype.code,
+    public description: typeof ProductEntity.prototype.description,
+    public price: typeof ProductEntity.prototype.price,
+    public stock: typeof ProductEntity.prototype.stock,
+    public productCategoryId: typeof ProductEntity.prototype.productCategoryId,
+    public productStatusId: typeof ProductEntity.prototype.productStatusId,
+    public imageUrl?: typeof ProductEntity.prototype.imageUrl
   ) {}
 
   static create(object: { [key: string]: any }): UpdateProductDto {
-    return new UpdateProductDto(object?.name, object?.code, object?.description, object?.price, object?.stock, object?.productCategoryId, object?.productStatusId, object?.imageUrl);
+    return new UpdateProductDto(
+      object?.id,
+      object?.name,
+      object?.code,
+      object?.description,
+      object?.price,
+      object?.stock,
+      object?.productCategoryId,
+      object?.productStatusId,
+      object?.imageUrl
+    );
   }
 
   getValues() {

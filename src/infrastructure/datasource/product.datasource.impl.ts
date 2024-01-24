@@ -6,6 +6,7 @@ import { GetAllProductDto } from "@src/domain/dtos/product/get-all-product.dto";
 import { GetPaginatedDto } from "@src/domain/dtos/shared/get-paginated-dto";
 import { PaginationDto } from "@src/domain/dtos/shared/pagination.dto";
 import { UpdateProductDto } from "@src/domain/dtos/product/update-product.dto";
+import { ProductEntity } from "@src/domain/entities/product.entity";
 
 const productIncludes: Prisma.ProductInclude = {
   productCategory: {
@@ -37,6 +38,12 @@ export class ProductDataSourceImpl implements ProductDataSource {
         OR: [
           {
             name: {
+              contains: dto.search,
+              mode: "insensitive",
+            },
+          },
+          {
+            code: {
               contains: dto.search,
               mode: "insensitive",
             },
@@ -145,16 +152,57 @@ export class ProductDataSourceImpl implements ProductDataSource {
     return GetAllProductDto.create(product);
   }
 
-  async update(id: number, dto: UpdateProductDto): Promise<GetAllProductDto> {
+  async update(dto: UpdateProductDto): Promise<GetAllProductDto> {
     const product = await prisma.product.update({
       where: {
-        id,
+        id: dto.id,
       },
       data: {
         ...dto.getValues(),
       },
       include: productIncludes,
     });
+
+    return GetAllProductDto.create(product);
+  }
+
+  async findByCode(code: string): Promise<GetAllProductDto> {
+    const product = await prisma.product.findUnique({
+      where: {
+        code,
+      },
+      include: productIncludes,
+    });
+
+    if (!product) {
+      return null;
+    }
+
+    return GetAllProductDto.create(product);
+  }
+
+  async checkIfExists(params: { id: typeof ProductEntity.prototype.id; code: typeof ProductEntity.prototype.code }): Promise<GetAllProductDto> {
+    const product = await prisma.product.findFirst({
+      where: {
+        OR: [
+          {
+            id: {
+              equals: params.id,
+            },
+          },
+          {
+            code: {
+              equals: params.code,
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
+    });
+
+    if (!product) {
+      return null;
+    }
 
     return GetAllProductDto.create(product);
   }

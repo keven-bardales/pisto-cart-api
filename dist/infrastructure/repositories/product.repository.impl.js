@@ -18,8 +18,25 @@ class ProductRepositoryImpl {
         const product = await this.dataSource.getById(id);
         return product;
     }
-    update(id, dto) {
-        const product = this.dataSource.update(id, dto);
+    update(dto) {
+        const product = this.dataSource.update(dto);
+        return product;
+    }
+    async findByCode(code) {
+        const product = await this.dataSource.findByCode(code);
+        if (!product) {
+            return null;
+        }
+        return product;
+    }
+    async checkIfExists(params) {
+        const product = await this.dataSource.checkIfExists({
+            code: params.code,
+            id: params.id,
+        });
+        if (!product) {
+            return null;
+        }
         return product;
     }
 }

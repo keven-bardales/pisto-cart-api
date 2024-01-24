@@ -7,6 +7,7 @@ const validate_request_middleware_1 = require("@api/shared/middlewares/validate-
 const create_product_controller_1 = require("@api/product/validation-schemas/create-product.controller");
 const auth_middleware_1 = require("../shared/middlewares/auth.middleware");
 const get_by_id_schema_1 = require("./validation-schemas/get-by-id.schema");
+const update_product_schema_1 = require("./validation-schemas/update-product.schema");
 class ProductRoutes {
     static mainRoute = "/product";
     static get routes() {
@@ -14,7 +15,7 @@ class ProductRoutes {
         router.get(`${this.mainRoute}/getAll`, product_controller_1.productController.getAll);
         router.post(`${this.mainRoute}/create`, [(0, validate_request_middleware_1.validate)(create_product_controller_1.createProductSchema)], product_controller_1.productController.create);
         router.get(`${this.mainRoute}/getById/:id`, [auth_middleware_1.authMiddleware, (0, validate_request_middleware_1.validate)(get_by_id_schema_1.getByIdProductSchema)], product_controller_1.productController.getById);
-        router.put(`${this.mainRoute}/update/:id`, [auth_middleware_1.authMiddleware, (0, validate_request_middleware_1.validate)(get_by_id_schema_1.getByIdProductSchema)], product_controller_1.productController.update);
+        router.put(`${this.mainRoute}/update`, [(0, validate_request_middleware_1.validate)(update_product_schema_1.updateProductSchema)], product_controller_1.productController.update);
         return router;
     }
 }

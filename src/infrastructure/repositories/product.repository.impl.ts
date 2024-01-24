@@ -27,8 +27,31 @@ export class ProductRepositoryImpl implements ProductRepository {
     return product;
   }
 
-  update(id: number, dto: UpdateProductDto): Promise<GetAllProductDto> {
-    const product = this.dataSource.update(id, dto);
+  update(dto: UpdateProductDto): Promise<GetAllProductDto> {
+    const product = this.dataSource.update(dto);
+
+    return product;
+  }
+
+  async findByCode(code: string): Promise<GetAllProductDto> {
+    const product = await this.dataSource.findByCode(code);
+
+    if (!product) {
+      return null;
+    }
+
+    return product;
+  }
+
+  async checkIfExists(params: { id: typeof GetAllProductDto.prototype.id; code: typeof GetAllProductDto.prototype.code }): Promise<GetAllProductDto> {
+    const product = await this.dataSource.checkIfExists({
+      code: params.code,
+      id: params.id,
+    });
+
+    if (!product) {
+      return null;
+    }
 
     return product;
   }

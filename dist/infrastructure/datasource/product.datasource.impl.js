@@ -38,6 +38,12 @@ class ProductDataSourceImpl {
                         },
                     },
                     {
+                        code: {
+                            contains: dto.search,
+                            mode: "insensitive",
+                        },
+                    },
+                    {
                         productCategory: {
                             name: {
                                 contains: dto.search,
@@ -130,16 +136,51 @@ class ProductDataSourceImpl {
         }
         return get_all_product_dto_1.GetAllProductDto.create(product);
     }
-    async update(id, dto) {
+    async update(dto) {
         const product = await data_1.prisma.product.update({
             where: {
-                id,
+                id: dto.id,
             },
             data: {
                 ...dto.getValues(),
             },
             include: productIncludes,
         });
+        return get_all_product_dto_1.GetAllProductDto.create(product);
+    }
+    async findByCode(code) {
+        const product = await data_1.prisma.product.findUnique({
+            where: {
+                code,
+            },
+            include: productIncludes,
+        });
+        if (!product) {
+            return null;
+        }
+        return get_all_product_dto_1.GetAllProductDto.create(product);
+    }
+    async checkIfExists(params) {
+        const product = await data_1.prisma.product.findFirst({
+            where: {
+                OR: [
+                    {
+                        id: {
+                            equals: params.id,
+                        },
+                    },
+                    {
+                        code: {
+                            equals: params.code,
+                            mode: "insensitive",
+                        },
+                    },
+                ],
+            },
+        });
+        if (!product) {
+            return null;
+        }
         return get_all_product_dto_1.GetAllProductDto.create(product);
     }
 }

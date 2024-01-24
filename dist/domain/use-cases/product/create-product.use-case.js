@@ -6,7 +6,11 @@ class CreateProductUseCase {
     constructor(productRepository) {
         this.productRepository = productRepository;
     }
-    exucute(dto) {
+    async exucute(dto) {
+        const productExists = await this.productRepository.findByCode(dto.code);
+        if (productExists) {
+            throw new Error("Ya existe un producto con ese codigo");
+        }
         return this.productRepository.create(dto);
     }
 }

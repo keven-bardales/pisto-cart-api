@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateProductDto = void 0;
 class UpdateProductDto {
+    id;
     name;
     code;
     description;
@@ -10,7 +11,8 @@ class UpdateProductDto {
     productCategoryId;
     productStatusId;
     imageUrl;
-    constructor(name, code, description, price, stock, productCategoryId, productStatusId, imageUrl) {
+    constructor(id, name, code, description, price, stock, productCategoryId, productStatusId, imageUrl) {
+        this.id = id;
         this.name = name;
         this.code = code;
         this.description = description;
@@ -21,7 +23,7 @@ class UpdateProductDto {
         this.imageUrl = imageUrl;
     }
     static create(object) {
-        return new UpdateProductDto(object?.name, object?.code, object?.description, object?.price, object?.stock, object?.productCategoryId, object?.productStatusId, object?.imageUrl);
+        return new UpdateProductDto(object?.id, object?.name, object?.code, object?.description, object?.price, object?.stock, object?.productCategoryId, object?.productStatusId, object?.imageUrl);
     }
     getValues() {
         const keys = Object.keys(this);

@@ -78,7 +78,7 @@ export class ProductController {
     const updateProductDto = UpdateProductDto.create(req.body);
 
     new UpdateProductUseCase(this.productRepository)
-      .execute(req.params.id, updateProductDto)
+      .execute(updateProductDto)
       .then((product) => {
         return res.status(200).json(
           ApiResponse.success({
