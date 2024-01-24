@@ -39,6 +39,10 @@ class ProductRepositoryImpl {
         }
         return product;
     }
+    async delete(id) {
+        const product = await this.dataSource.delete(id);
+        return product;
+    }
 }
 exports.ProductRepositoryImpl = ProductRepositoryImpl;
 //# sourceMappingURL=product.repository.impl.js.map

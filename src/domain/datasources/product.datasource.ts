@@ -9,6 +9,7 @@ export abstract class ProductDataSource {
   abstract create(dto: CreateProductDto): Promise<GetAllProductDto>;
   abstract getById(id: number): Promise<GetAllProductDto>;
   abstract update(dto: UpdateProductDto): Promise<GetAllProductDto>;
+  abstract delete(id: typeof GetAllProductDto.prototype.id): Promise<GetAllProductDto>;
   abstract findByCode(code: string): Promise<GetAllProductDto>;
   abstract checkIfExists(params: {
     id: typeof GetAllProductDto.prototype.id;

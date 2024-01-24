@@ -17,6 +17,17 @@ class ProductStatusDataSourceImpl extends product_status_datasource_1.ProductSta
         const productStatuses = await data_1.prisma.productStatus.findMany();
         return productStatuses.map((productStatus) => get_all_product_status_dto_1.GetAllProductStatusDto.fromObject(productStatus));
     }
+    async checkIfExists(params) {
+        const productStatus = await data_1.prisma.productStatus.findUnique({
+            where: {
+                id: params.id,
+            },
+        });
+        if (!productStatus) {
+            return null;
+        }
+        return get_all_product_status_dto_1.GetAllProductStatusDto.fromObject(productStatus);
+    }
 }
 exports.ProductStatusDataSourceImpl = ProductStatusDataSourceImpl;
 exports.productStatusDataSource = new ProductStatusDataSourceImpl();

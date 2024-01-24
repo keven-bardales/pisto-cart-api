@@ -10,6 +10,8 @@ import { ApiResponse } from "@src/domain/wrappers/response";
 import { NextFunction, Request, Response } from "express";
 
 export const errorHandlingMiddleware = (error: Error, req: Request, res: Response, next: NextFunction) => {
+  console.log(error);
+
   if (error instanceof SyntaxError) {
     return res.status(400).json(
       ApiResponse.badRequest({

@@ -29,6 +29,20 @@ export class ProductCategoryDataSourceImpl implements ProductCategoryDataSource 
 
     return GetAllProductCategoryDto.create(productCategory);
   }
+
+  async checkIfExists(params: { id: number }): Promise<GetAllProductCategoryDto> {
+    const productCategory = await prisma.productCategory.findUnique({
+      where: {
+        id: params.id,
+      },
+    });
+
+    if (!productCategory) {
+      return null;
+    }
+
+    return GetAllProductCategoryDto.create(productCategory);
+  }
 }
 
 export const productCategoryDataSource = new ProductCategoryDataSourceImpl();

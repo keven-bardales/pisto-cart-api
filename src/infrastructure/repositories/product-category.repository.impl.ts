@@ -18,6 +18,10 @@ export class ProductCategoryImpl implements ProductCategoryRepository {
   getById(id: string): Promise<GetAllProductCategoryDto> {
     return this.productCategoryDataSource.getById(ProductCategoryEntity.prototype.id);
   }
+
+  checkIfExists(params: { id: typeof ProductCategoryEntity.prototype.id }): Promise<GetAllProductCategoryDto> {
+    return this.productCategoryDataSource.checkIfExists(params);
+  }
 }
 
 export const productCategoryRepository = new ProductCategoryImpl(productCategoryDataSource);

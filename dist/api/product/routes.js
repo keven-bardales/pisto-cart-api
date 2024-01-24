@@ -16,6 +16,7 @@ class ProductRoutes {
         router.post(`${this.mainRoute}/create`, [(0, validate_request_middleware_1.validate)(create_product_controller_1.createProductSchema)], product_controller_1.productController.create);
         router.get(`${this.mainRoute}/getById/:id`, [auth_middleware_1.authMiddleware, (0, validate_request_middleware_1.validate)(get_by_id_schema_1.getByIdProductSchema)], product_controller_1.productController.getById);
         router.put(`${this.mainRoute}/update`, [(0, validate_request_middleware_1.validate)(update_product_schema_1.updateProductSchema)], product_controller_1.productController.update);
+        router.delete(`${this.mainRoute}/delete/:id`, product_controller_1.productController.delete);
         return router;
     }
 }

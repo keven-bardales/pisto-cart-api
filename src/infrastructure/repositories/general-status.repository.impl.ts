@@ -3,6 +3,7 @@ import { GetAllGeneralStatusDto } from "@src/domain/dtos/generalStatus/get-all-g
 import { GeneralStatusRepository } from "@src/domain/repositories/general-status.repository";
 import { generalStatusDataSource } from "@infrastructure/datasource/general-status.datasource.impl";
 import { GeneralStatusDataSource } from "@src/domain/datasources/general-status.datasource";
+import { GeneralStatusEntity } from "@src/domain/entities/general-status.entity";
 
 export class GeneralStatusRepositoryImpl implements GeneralStatusRepository {
   constructor(private readonly dataSource: GeneralStatusDataSource) {}
@@ -14,8 +15,10 @@ export class GeneralStatusRepositoryImpl implements GeneralStatusRepository {
   getAll(): Promise<GetAllGeneralStatusDto[]> {
     return this.dataSource.getAll();
   }
+
+  checkIfExists(params: { id: typeof GeneralStatusEntity.prototype.id }): Promise<GetAllGeneralStatusDto> {
+    return this.dataSource.checkIfExists(params);
+  }
 }
 
-export const generalStatusRepository = new GeneralStatusRepositoryImpl(
-  generalStatusDataSource
-);
+export const generalStatusRepository = new GeneralStatusRepositoryImpl(generalStatusDataSource);

@@ -183,6 +183,16 @@ class ProductDataSourceImpl {
         }
         return get_all_product_dto_1.GetAllProductDto.create(product);
     }
+    async delete(id) {
+        const product = await data_1.prisma.product.delete({
+            where: {
+                id,
+            },
+            include: productIncludes,
+        });
+        const dto = get_all_product_dto_1.GetAllProductDto.create(product);
+        return dto;
+    }
 }
 exports.ProductDataSourceImpl = ProductDataSourceImpl;
 //# sourceMappingURL=product.datasource.impl.js.map

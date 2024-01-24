@@ -10,7 +10,8 @@ export class UpdateProductDto {
     public stock: typeof ProductEntity.prototype.stock,
     public productCategoryId: typeof ProductEntity.prototype.productCategoryId,
     public productStatusId: typeof ProductEntity.prototype.productStatusId,
-    public imageUrl?: typeof ProductEntity.prototype.imageUrl
+    public imageUrl: typeof ProductEntity.prototype.imageUrl,
+    public generalStatusId: typeof ProductEntity.prototype.generalStatusId
   ) {}
 
   static create(object: { [key: string]: any }): UpdateProductDto {
@@ -23,7 +24,8 @@ export class UpdateProductDto {
       object?.stock,
       object?.productCategoryId,
       object?.productStatusId,
-      object?.imageUrl
+      object?.imageUrl,
+      object?.generalStatusId
     );
   }
 

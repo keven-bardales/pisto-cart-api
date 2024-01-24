@@ -181,7 +181,7 @@ export class ProductDataSourceImpl implements ProductDataSource {
     return GetAllProductDto.create(product);
   }
 
-  async checkIfExists(params: { id: typeof ProductEntity.prototype.id; code: typeof ProductEntity.prototype.code }): Promise<GetAllProductDto> {
+  async checkIfExists(params: { id?: typeof ProductEntity.prototype.id; code?: typeof ProductEntity.prototype.code }): Promise<GetAllProductDto> {
     const product = await prisma.product.findFirst({
       where: {
         OR: [
@@ -205,5 +205,18 @@ export class ProductDataSourceImpl implements ProductDataSource {
     }
 
     return GetAllProductDto.create(product);
+  }
+
+  async delete(id: number): Promise<GetAllProductDto> {
+    const product = await prisma.product.delete({
+      where: {
+        id,
+      },
+      include: productIncludes,
+    });
+
+    const dto = GetAllProductDto.create(product);
+
+    return dto;
   }
 }

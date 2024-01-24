@@ -24,6 +24,17 @@ class ProductCategoryDataSourceImpl {
         });
         return get_all_product_category_dto_1.GetAllProductCategoryDto.create(productCategory);
     }
+    async checkIfExists(params) {
+        const productCategory = await data_1.prisma.productCategory.findUnique({
+            where: {
+                id: params.id,
+            },
+        });
+        if (!productCategory) {
+            return null;
+        }
+        return get_all_product_category_dto_1.GetAllProductCategoryDto.create(productCategory);
+    }
 }
 exports.ProductCategoryDataSourceImpl = ProductCategoryDataSourceImpl;
 exports.productCategoryDataSource = new ProductCategoryDataSourceImpl();

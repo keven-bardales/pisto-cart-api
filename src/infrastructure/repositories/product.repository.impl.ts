@@ -55,4 +55,10 @@ export class ProductRepositoryImpl implements ProductRepository {
 
     return product;
   }
+
+  async delete(id: typeof GetAllProductDto.prototype.id): Promise<GetAllProductDto> {
+    const product = await this.dataSource.delete(id);
+
+    return product;
+  }
 }

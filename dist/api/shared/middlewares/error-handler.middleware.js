@@ -5,6 +5,7 @@ const library_1 = require("@prisma/client/runtime/library");
 const bad_request_exception_1 = require("@src/domain/exceptions/bad-request.exception");
 const response_1 = require("@src/domain/wrappers/response");
 const errorHandlingMiddleware = (error, req, res, next) => {
+    console.log(error);
     if (error instanceof SyntaxError) {
         return res.status(400).json(response_1.ApiResponse.badRequest({
             message: "Ha ocurrido un error al validar los datos",

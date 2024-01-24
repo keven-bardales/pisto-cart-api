@@ -20,6 +20,8 @@ export class ProductRoutes {
 
     router.put(`${this.mainRoute}/update`, [validate(updateProductSchema)], productController.update);
 
+    router.delete(`${this.mainRoute}/delete/:id`, productController.delete);
+
     return router;
   }
 }
