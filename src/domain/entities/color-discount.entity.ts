@@ -3,13 +3,13 @@ import { CartDetailEntity } from "@domain/entities/cart-detail.entity";
 
 export class ColorDiscountEntity {
   constructor(
-    public id: string,
+    public id: number,
     public name: string,
     public discountPercentage: number,
-    public createdAt: Date,
-    public updatedAt: Date,
-    public orderDetails: CartOrderDetailEntity[] = [],
-    public cartDetails: CartDetailEntity[] = []
+    public createdAt: string,
+    public updatedAt: string,
+    public orderDetails?: CartOrderDetailEntity[],
+    public cartDetails?: CartDetailEntity[]
   ) {}
 
   static fromObject(object: any): ColorDiscountEntity {
@@ -19,16 +19,8 @@ export class ColorDiscountEntity {
       object.discountPerecentage,
       object.createdAt,
       object.updatedAt,
-      object.orderDetail
-        ? object.orderDetails.map((detail: any) =>
-            CartOrderDetailEntity.fromObject(detail)
-          )
-        : [],
-      object.cartDetail
-        ? object.cartDetails.map((detail: any) =>
-            CartDetailEntity.fromObject(detail)
-          )
-        : []
+      object.orderDetail ? object.orderDetails.map((detail: any) => CartOrderDetailEntity.fromObject(detail)) : null,
+      object.cartDetail ? object.cartDetails.map((detail: any) => CartDetailEntity.fromObject(detail)) : null
     );
   }
 }

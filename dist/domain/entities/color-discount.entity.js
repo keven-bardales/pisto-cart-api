@@ -11,7 +11,7 @@ class ColorDiscountEntity {
     updatedAt;
     orderDetails;
     cartDetails;
-    constructor(id, name, discountPercentage, createdAt, updatedAt, orderDetails = [], cartDetails = []) {
+    constructor(id, name, discountPercentage, createdAt, updatedAt, orderDetails, cartDetails) {
         this.id = id;
         this.name = name;
         this.discountPercentage = discountPercentage;
@@ -21,11 +21,7 @@ class ColorDiscountEntity {
         this.cartDetails = cartDetails;
     }
     static fromObject(object) {
-        return new ColorDiscountEntity(object.id, object.name, object.discountPerecentage, object.createdAt, object.updatedAt, object.orderDetail
-            ? object.orderDetails.map((detail) => cart_order_detail_entity_1.CartOrderDetailEntity.fromObject(detail))
-            : [], object.cartDetail
-            ? object.cartDetails.map((detail) => cart_detail_entity_1.CartDetailEntity.fromObject(detail))
-            : []);
+        return new ColorDiscountEntity(object.id, object.name, object.discountPerecentage, object.createdAt, object.updatedAt, object.orderDetail ? object.orderDetails.map((detail) => cart_order_detail_entity_1.CartOrderDetailEntity.fromObject(detail)) : null, object.cartDetail ? object.cartDetails.map((detail) => cart_detail_entity_1.CartDetailEntity.fromObject(detail)) : null);
     }
 }
 exports.ColorDiscountEntity = ColorDiscountEntity;

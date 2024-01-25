@@ -4,6 +4,7 @@ import { UserEntity } from "@domain/entities/user.entity";
 import { GetAllUserDto } from "@domain/dtos/user/get-all-user.dto";
 import { CreateUserDto } from "@src/domain/dtos/user/create-user.dto";
 import { UpdateUserDto } from "@src/domain/dtos/user/update-user.dto";
+import { UserWithPasswordDto } from "@src/domain/dtos/user/user-with-password.dto";
 
 export class UserDataSourceImpl implements UserDataSource {
   async getAll(): Promise<GetAllUserDto[]> {
@@ -27,8 +28,7 @@ export class UserDataSourceImpl implements UserDataSource {
     });
 
     if (!user) {
-      //  TODO: Implementar un error personalizado
-      throw new Error(`Usuario con id ${id} no encontrado`);
+      return null;
     }
 
     return GetAllUserDto.fromObject(user);
@@ -43,7 +43,6 @@ export class UserDataSourceImpl implements UserDataSource {
         lastName: user?.lastName,
         password: user?.password,
         rolId: user?.rolId,
-        googleId: user?.googleId,
         imageUrl: user?.imageUrl,
         generalStatusId: user?.generalStatusId,
       },
@@ -52,10 +51,7 @@ export class UserDataSourceImpl implements UserDataSource {
     return GetAllUserDto.fromObject(newUser);
   }
 
-  async update(
-    id: typeof UserEntity.prototype.id,
-    user: UpdateUserDto
-  ): Promise<GetAllUserDto> {
+  async update(id: typeof UserEntity.prototype.id, user: UpdateUserDto): Promise<GetAllUserDto> {
     const updatedUser = await prisma.user.update({
       where: {
         id,
@@ -68,9 +64,7 @@ export class UserDataSourceImpl implements UserDataSource {
     return GetAllUserDto.fromObject(updatedUser);
   }
 
-  async checkIfUserExistsByParams(params: {
-    [key: string]: any;
-  }): Promise<typeof UserEntity.prototype.id> {
+  async checkIfUserExistsByParams(params: { [key: string]: any }): Promise<GetAllUserDto> {
     const foundUser = await prisma.user.findFirst({
       where: {
         ...params,
@@ -81,7 +75,26 @@ export class UserDataSourceImpl implements UserDataSource {
       return null;
     }
 
-    return foundUser.id;
+    return GetAllUserDto.fromObject(foundUser);
+  }
+
+  async login(dto: { [key: string]: any }): Promise<UserWithPasswordDto> {
+    const { loginCredential, password } = dto;
+
+    const user = await prisma.user.findFirst({
+      where: {
+        email: loginCredential,
+      },
+      include: {
+        rol: true,
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return UserWithPasswordDto.fromObject(user);
   }
 }
 

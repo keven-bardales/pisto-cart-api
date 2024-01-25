@@ -2,7 +2,9 @@ import { ProductDataSource } from "@src/domain/datasources/product.datasource";
 import { CreateProductDto } from "@src/domain/dtos/product/create-product.dto";
 import { GetAllProductDto } from "@src/domain/dtos/product/get-all-product.dto";
 import { ProductRepository } from "@src/domain/repositories/product-repository";
-import { productDataSource } from "@infrastructure/datasource/product.datasource.impl";
+import { PaginationDto } from "@src/domain/dtos/shared/pagination.dto";
+import { GetPaginatedDto } from "@src/domain/dtos/shared/get-paginated-dto";
+import { UpdateProductDto } from "@src/domain/dtos/product/update-product.dto";
 
 export class ProductRepositoryImpl implements ProductRepository {
   constructor(private readonly dataSource: ProductDataSource) {}
@@ -13,11 +15,50 @@ export class ProductRepositoryImpl implements ProductRepository {
     return product;
   }
 
-  async getAll(): Promise<GetAllProductDto[]> {
-    const products = await this.dataSource.getAll();
+  async getAll(dto: PaginationDto): Promise<GetPaginatedDto<GetAllProductDto>> {
+    const products = await this.dataSource.getAll(dto);
 
     return products;
   }
-}
 
-export const productRepository = new ProductRepositoryImpl(productDataSource);
+  async getById(id: number): Promise<GetAllProductDto> {
+    const product = await this.dataSource.getById(id);
+
+    return product;
+  }
+
+  update(dto: UpdateProductDto): Promise<GetAllProductDto> {
+    const product = this.dataSource.update(dto);
+
+    return product;
+  }
+
+  async findByCode(code: string): Promise<GetAllProductDto> {
+    const product = await this.dataSource.findByCode(code);
+
+    if (!product) {
+      return null;
+    }
+
+    return product;
+  }
+
+  async checkIfExists(params: { id: typeof GetAllProductDto.prototype.id; code: typeof GetAllProductDto.prototype.code }): Promise<GetAllProductDto> {
+    const product = await this.dataSource.checkIfExists({
+      code: params.code,
+      id: params.id,
+    });
+
+    if (!product) {
+      return null;
+    }
+
+    return product;
+  }
+
+  async delete(id: typeof GetAllProductDto.prototype.id): Promise<GetAllProductDto> {
+    const product = await this.dataSource.delete(id);
+
+    return product;
+  }
+}

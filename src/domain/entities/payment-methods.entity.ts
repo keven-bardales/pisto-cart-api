@@ -4,9 +4,9 @@ export class PaymentMethodsEntity {
   constructor(
     public id: string,
     public name: string,
-    public createdAt: Date,
-    public updatedAt: Date,
-    public cartOrders: CartOrderEntity[] = [] // Puede contener un array de CartOrderEntity
+    public createdAt: string,
+    public updatedAt: string,
+    public cartOrders?: CartOrderEntity[] // Puede contener un array de CartOrderEntity
   ) {}
 
   static fromObject(object: any): PaymentMethodsEntity {
@@ -15,11 +15,7 @@ export class PaymentMethodsEntity {
       object.name,
       object.createdAt,
       object.updatedAt,
-      object.cartOrders
-        ? object.cartOrders.map((order: any) =>
-            CartOrderEntity.fromObject(order)
-          )
-        : []
+      object.cartOrders ? object.cartOrders.map((order: any) => CartOrderEntity.fromObject(order)) : null
     );
   }
 }

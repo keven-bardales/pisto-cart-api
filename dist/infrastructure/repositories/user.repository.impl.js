@@ -28,6 +28,9 @@ class UserRepositoryImpl {
     checkIfUserExistsByParams(params) {
         return this.dataSource.checkIfUserExistsByParams(params);
     }
+    login(dto) {
+        return this.dataSource.login(dto);
+    }
 }
 exports.userRepository = new UserRepositoryImpl(user_datasource_impl_1.userDataSource);
 //# sourceMappingURL=user.repository.impl.js.map

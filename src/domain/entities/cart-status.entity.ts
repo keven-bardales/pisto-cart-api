@@ -1,13 +1,7 @@
 import { CartEntity } from "@domain/entities/cart.entity";
 
 export class CartStatusEntity {
-  constructor(
-    public id: number,
-    public name: string,
-    public createdAt: Date,
-    public updatedAt: Date,
-    public carts: CartEntity[] = [] // Puede contener un array de CartEntity
-  ) {}
+  constructor(public id: number, public name: string, public createdAt: string, public updatedAt: string, public carts?: CartEntity[]) {}
 
   static fromObject(object: any): CartStatusEntity {
     return new CartStatusEntity(
@@ -15,9 +9,7 @@ export class CartStatusEntity {
       object.name,
       object.createdAt,
       object.updatedAt,
-      object.carts
-        ? object.carts.map((cart: any) => CartEntity.fromObject(cart))
-        : []
+      object.carts ? object.carts.map((cart: any) => CartEntity.fromObject(cart)) : null
     );
   }
 }

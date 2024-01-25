@@ -8,7 +8,7 @@ class PaymentMethodsEntity {
     createdAt;
     updatedAt;
     cartOrders;
-    constructor(id, name, createdAt, updatedAt, cartOrders = [] // Puede contener un array de CartOrderEntity
+    constructor(id, name, createdAt, updatedAt, cartOrders // Puede contener un array de CartOrderEntity
     ) {
         this.id = id;
         this.name = name;
@@ -17,9 +17,7 @@ class PaymentMethodsEntity {
         this.cartOrders = cartOrders;
     }
     static fromObject(object) {
-        return new PaymentMethodsEntity(object.id, object.name, object.createdAt, object.updatedAt, object.cartOrders
-            ? object.cartOrders.map((order) => cart_order_entity_1.CartOrderEntity.fromObject(order))
-            : []);
+        return new PaymentMethodsEntity(object.id, object.name, object.createdAt, object.updatedAt, object.cartOrders ? object.cartOrders.map((order) => cart_order_entity_1.CartOrderEntity.fromObject(order)) : null);
     }
 }
 exports.PaymentMethodsEntity = PaymentMethodsEntity;

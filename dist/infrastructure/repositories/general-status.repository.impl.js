@@ -13,6 +13,9 @@ class GeneralStatusRepositoryImpl {
     getAll() {
         return this.dataSource.getAll();
     }
+    checkIfExists(params) {
+        return this.dataSource.checkIfExists(params);
+    }
 }
 exports.GeneralStatusRepositoryImpl = GeneralStatusRepositoryImpl;
 exports.generalStatusRepository = new GeneralStatusRepositoryImpl(general_status_datasource_impl_1.generalStatusDataSource);

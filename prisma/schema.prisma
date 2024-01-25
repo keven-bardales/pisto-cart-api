@@ -10,24 +10,54 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model GeneralStatus {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User[]
+model Module {
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  permissions Permission[]
+}
+
+model Permission {
+  id            Int             @id @default(autoincrement())
+  name          String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  moduleId      Int
+  module        Module          @relation(fields: [moduleId], references: [id])
+  RolPermission RolPermission[]
+}
+
+model RolPermission {
+  id           Int        @id @default(autoincrement())
+  rolId        Int
+  permissionId Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  rol          UserRol    @relation(fields: [rolId], references: [id])
+  permission   Permission @relation(fields: [permissionId], references: [id])
+
+  @@index([rolId], name: "RolPermissionrolId")
+  @@index([permissionId], name: "RolPermissionpermissionId")
+}
+
+model UserRol {
+  id             Int             @id @default(autoincrement())
+  name           String
+  users          User[]
+  rolPermissions RolPermission[]
 }
 
 model User {
   id              String        @id @default(uuid())
-  googleId        String        @unique
   firstName       String
   lastName        String
   fullName        String
   email           String
   imageUrl        String
   password        String
-  rolId           String
+  rolId           Int
   generalStatusId Int
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
@@ -35,50 +65,38 @@ model User {
   generalStatus   GeneralStatus @relation(fields: [generalStatusId], references: [id])
   carts           Cart[]
   cartOrders      CartOrder[]
-  customers       Customer[]
 
   @@index([fullName], name: "UserfullName")
   @@index([rolId], name: "UserrolId")
   @@index([generalStatusId], name: "UsergeneralStatusId")
 }
 
-model UserRol {
-  id    String @id @default(uuid())
-  name  String
-  users User[]
-}
-
-model Customer {
-  id        String   @id @default(uuid())
-  firstName String
-  lastName  String
-  fullName  String
-  email     String
-  imageUrl  String
-  userId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id])
-
-  @@index([userId], name: "CustomeruserId")
-  @@index([fullName], name: "CustomerfullName")
+model GeneralStatus {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User[]
+  Product   Product[]
 }
 
 model Product {
-  id                String            @id @default(uuid())
+  id                Int               @id @default(autoincrement())
   code              String            @unique
   name              String
   description       String
-  price             Decimal           @db.Decimal(10, 2)
-  cost              Decimal           @db.Decimal(10, 2)
+  price             Int
+  cost              Int
   stock             Int               @default(0)
   imageUrl          String
-  productCategoryId String
+  productCategoryId Int
   productStatusId   Int
+  generalStatusId   Int
   updatedAt         DateTime          @updatedAt
   createdAt         DateTime          @default(now())
   productStatus     ProductStatus     @relation(fields: [productStatusId], references: [id])
   productCategory   ProductCategory   @relation(fields: [productCategoryId], references: [id])
+  generalStatus     GeneralStatus     @relation(fields: [generalStatusId], references: [id])
   orderDetails      CartOrderDetail[]
   cartDetails       CartDetail[]
 
@@ -88,21 +106,19 @@ model Product {
 }
 
 model ProductCategory {
-  id               String    @id @default(uuid())
+  id               Int       @id @default(autoincrement())
   categoryCode     String
   name             String
   categoryLevel    Int
-  parentCategoryId String?
+  parentCategoryId Int?
   imageUrl         String
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
   description      String
   products         Product[]
 
-  @@index([parentCategoryId], name: "parentCategoryId")
-  @@index([categoryCode], name: "categoryCode")
-  @@index([name], name: "categoryname")
-  @@index([categoryLevel], name: "categoryLevel")
+  parentCategory  ProductCategory?  @relation("ChildCategories", fields: [parentCategoryId], references: [id])
+  childCategories ProductCategory[] @relation("ChildCategories")
 }
 
 model ProductStatus {
@@ -115,12 +131,13 @@ model ProductStatus {
 
 model Cart {
   id               String       @id @default(uuid())
-  total            Decimal      @db.Decimal(10, 2)
-  subTotal         Decimal      @db.Decimal(10, 2)
-  subTotalDiscount Decimal      @db.Decimal(10, 2)
-  subTotalTax      Decimal      @db.Decimal(10, 2)
-  discount         Decimal      @db.Decimal(10, 2)
-  tax              Decimal      @db.Decimal(10, 2)
+  quantity         Int
+  total            BigInt
+  subTotal         BigInt
+  subTotalDiscount BigInt
+  subTotalTax      BigInt
+  discount         BigInt
+  tax              BigInt
   userId           String
   cartStatusId     Int
   createdAt        DateTime     @default(now())
@@ -131,18 +148,25 @@ model Cart {
 }
 
 model CartDetail {
-  id              String        @id @default(uuid())
-  quantity        Int
-  colorDiscountId String
-  productId       String
-  taxRateId       Int
-  cartId          String
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  product         Product       @relation(fields: [productId], references: [id])
-  colorDiscount   ColorDiscount @relation(fields: [colorDiscountId], references: [id])
-  cart            Cart          @relation(fields: [cartId], references: [id])
-  taxRate         TaxRate       @relation(fields: [taxRateId], references: [id])
+  id               Int           @id @default(autoincrement())
+  cartId           String
+  productId        Int
+  quantity         Int
+  salePrice        BigInt
+  total            BigInt
+  subTotal         BigInt
+  subTotalDiscount BigInt
+  subTotalTax      BigInt
+  discount         BigInt
+  tax              BigInt
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  colorDiscountId  Int
+  taxRateId        Int
+  product          Product       @relation(fields: [productId], references: [id])
+  colorDiscount    ColorDiscount @relation(fields: [colorDiscountId], references: [id])
+  cart             Cart          @relation(fields: [cartId], references: [id])
+  taxRate          TaxRate       @relation(fields: [taxRateId], references: [id])
 
   @@index([productId], name: "CartDetailproductId")
 }
@@ -158,14 +182,14 @@ model CartStatus {
 model CartOrder {
   id               String            @id @default(uuid())
   userId           String
-  paymentMethodId  String
+  paymentMethodId  Int
   quantity         Int
-  total            Decimal           @db.Decimal(10, 2)
-  subTotal         Decimal           @db.Decimal(10, 2)
-  subTotalDiscount Decimal           @db.Decimal(10, 2)
-  subTotalTax      Decimal           @db.Decimal(10, 2)
-  discount         Decimal           @db.Decimal(10, 2)
-  tax              Decimal           @db.Decimal(10, 2)
+  total            BigInt
+  subTotal         BigInt
+  subTotalDiscount BigInt
+  subTotalTax      BigInt
+  discount         BigInt
+  tax              BigInt
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
   user             User              @relation(fields: [userId], references: [id])
@@ -177,16 +201,16 @@ model CartOrder {
 }
 
 model CartOrderDetail {
-  id                  String         @id @default(uuid())
+  id                  Int            @id @default(autoincrement())
   orderId             String
-  productId           String
+  productId           Int
   quantity            Int
-  price               Decimal        @db.Decimal(10, 2)
-  total               Decimal        @db.Decimal(10, 2)
-  discount            Decimal        @db.Decimal(10, 2)
-  tax                 Decimal        @db.Decimal(10, 2)
-  discountPerecentage Decimal        @db.Decimal(10, 2)
-  colorDiscountId     String
+  salePrice           BigInt
+  total               BigInt
+  discount            BigInt
+  tax                 BigInt
+  discountPerecentage BigInt
+  colorDiscountId     Int
   taxRateId           Int
   createdAt           DateTime       @default(now())
   updatedAt           DateTime       @updatedAt
@@ -200,19 +224,19 @@ model CartOrderDetail {
 }
 
 model ColorDiscount {
-  id                  String            @id @default(uuid())
-  name                String
-  discountPerecentage Decimal           @db.Decimal(10, 2)
-  createdAt           DateTime          @default(now())
-  updatedAt           DateTime          @updatedAt
-  orderDetails        CartOrderDetail[]
-  cartDetails         CartDetail[]
+  id                 Int               @id @default(autoincrement())
+  name               String
+  discountPercentage BigInt
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  orderDetails       CartOrderDetail[]
+  cartDetails        CartDetail[]
 }
 
 model TaxRate {
   id           Int               @id @default(autoincrement())
   name         String
-  rate         Decimal           @db.Decimal(10, 2)
+  rate         BigInt
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
   cartDetails  CartDetail[]
@@ -220,7 +244,7 @@ model TaxRate {
 }
 
 model PaymentMethods {
-  id         String      @id @default(uuid())
+  id         Int         @id @default(autoincrement())
   name       String
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt

@@ -28,7 +28,7 @@ class Server {
         this.app.use(this.routes);
         this.app.use(error_handler_middleware_1.errorHandlingMiddleware);
         this.app.listen(this.port, () => {
-            console.log(`Server is listening on port ${this.port}`);
+            console.log(`Server is listening on  http://localhost:${this.port}/api/v1`);
         });
     }
 }

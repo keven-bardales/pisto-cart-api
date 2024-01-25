@@ -44,7 +44,8 @@ exports.createUserSchema = z.object({
         imageUrl: z.string({
             required_error: "La imagen es requerida",
         }),
-        rolId: z.string({
+        rolId: z.number({
+            invalid_type_error: "El rol debe ser un número",
             required_error: "El rol es requerido",
         }),
         generalStatusId: z.number({

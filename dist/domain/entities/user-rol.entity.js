@@ -5,13 +5,15 @@ class UserRolEntity {
     id;
     name;
     users;
-    constructor(id, name, users) {
+    rolPermissions;
+    constructor(id, name, users, rolPermissions) {
         this.id = id;
         this.name = name;
         this.users = users;
+        this.rolPermissions = rolPermissions;
     }
     static fromObject(object) {
-        return new UserRolEntity(object.id, object.name, object?.users);
+        return new UserRolEntity(object?.id, object?.name, object?.users ?? null, object?.rolPermissions ?? null);
     }
 }
 exports.UserRolEntity = UserRolEntity;

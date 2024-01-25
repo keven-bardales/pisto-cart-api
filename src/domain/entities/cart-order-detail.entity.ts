@@ -5,7 +5,7 @@ import { CartOrderEntity } from "@domain/entities/cart-order.entity";
 
 export class CartOrderDetailEntity {
   constructor(
-    public id: string,
+    public id: number,
     public orderId: string,
     public productId: string,
     public quantity: number,
@@ -16,12 +16,12 @@ export class CartOrderDetailEntity {
     public discountPercentage: number,
     public colorDiscountId: string,
     public taxRateId: number,
-    public createdAt: Date,
-    public updatedAt: Date,
-    public product: ProductEntity | null = null,
-    public order: CartOrderEntity | null = null,
-    public colorDiscount: ColorDiscountEntity | null = null,
-    public taxRate: TaxRateEntity | null = null
+    public createdAt: string,
+    public updatedAt: string,
+    public product?: ProductEntity | null,
+    public order?: CartOrderEntity | null,
+    public colorDiscount?: ColorDiscountEntity | null,
+    public taxRate?: TaxRateEntity | null
   ) {}
 
   static fromObject(object: any): CartOrderDetailEntity {
@@ -41,9 +41,7 @@ export class CartOrderDetailEntity {
       object.updatedAt,
       object.product ? ProductEntity.fromObject(object.product) : null,
       object.order ? CartOrderEntity.fromObject(object.order) : null,
-      object.colorDiscount
-        ? ColorDiscountEntity.fromObject(object.colorDiscount)
-        : null,
+      object.colorDiscount ? ColorDiscountEntity.fromObject(object.colorDiscount) : null,
       object.taxRate ? TaxRateEntity.fromObject(object.taxRate) : null
     );
   }

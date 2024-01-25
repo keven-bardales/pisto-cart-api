@@ -1,59 +1,42 @@
 import { UserRolEntity } from "@domain/entities/user-rol.entity";
+import { GeneralStatusEntity } from "./general-status.entity";
+import { CartEntity } from "./cart.entity";
+import { CartOrderEntity } from "./cart-order.entity";
 
 export class UserEntity {
   constructor(
     public id: string,
-    public googleId: string,
     public firstName: string,
     public lastName: string,
     public fullName: string,
     public email: string,
     public imageUrl: string,
-    public rolId: string,
+    public rolId: number,
     public generalStatusId: number,
-    public createdAt: Date,
-    public updatedAt: Date,
+    public createdAt: string,
+    public updatedAt: string,
     public rol?: UserRolEntity,
-    public generalStatus?: GeneralStatus,
-    public carts?: Cart[],
-    public cartOrders?: CartOrder[],
-    public customers?: Customer[]
+    public generalStatus?: GeneralStatusEntity,
+    public carts?: CartEntity[],
+    public cartOrders?: CartOrderEntity[]
   ) {}
 
   static fromObject(object: any): UserEntity {
     return new UserEntity(
-      object.id,
-      object.googleId,
-      object.firstName,
-      object.lastName,
-      object.fullName,
-      object.email,
-      object.imageUrl,
-      object.rolId,
-      object.generalStatusId,
-      object.createdAt,
-      object.updatedAt,
+      object?.id,
+      object?.firstName,
+      object?.lastName,
+      object?.fullName,
+      object?.email,
+      object?.imageUrl,
+      object?.rolId,
+      object?.generalStatusId,
+      object?.createdAt,
+      object?.updatedAt,
       UserRolEntity.fromObject(object?.rol),
-      object?.generalStatus,
-      object?.carts,
-      object?.cartOrders,
-      object?.customers
+      GeneralStatusEntity.fromObject(object?.generalStatus),
+      object?.carts?.map((cart: any) => CartEntity.fromObject(cart)),
+      object?.cartOrders?.map((cartOrder: any) => CartOrderEntity.fromObject(cartOrder))
     );
   }
-}
-
-class Customer {
-  // Definir la clase Customer si es necesario
-}
-
-class GeneralStatus {
-  // Definir la clase GeneralStatus si es necesario
-}
-
-class Cart {
-  // Definir la clase Cart si es necesario
-}
-
-class CartOrder {
-  // Definir la clase CartOrder si es necesario
 }

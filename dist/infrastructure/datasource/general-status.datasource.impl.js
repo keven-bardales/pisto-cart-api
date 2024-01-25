@@ -16,6 +16,17 @@ class GeneralStatusDataSourceImpl {
         const generalStatuses = await data_1.prisma.generalStatus.findMany();
         return generalStatuses.map((generalStatus) => get_all_general_status_dto_1.GetAllGeneralStatusDto.fromObject(generalStatus));
     }
+    async checkIfExists(params) {
+        const generalStatus = await data_1.prisma.generalStatus.findUnique({
+            where: {
+                id: params.id,
+            },
+        });
+        if (!generalStatus) {
+            return null;
+        }
+        return get_all_general_status_dto_1.GetAllGeneralStatusDto.fromObject(generalStatus);
+    }
 }
 exports.GeneralStatusDataSourceImpl = GeneralStatusDataSourceImpl;
 exports.generalStatusDataSource = new GeneralStatusDataSourceImpl();

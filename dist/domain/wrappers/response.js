@@ -12,22 +12,22 @@ class ApiResponse {
         this.statusCode = statusCode;
         this.errors = errors;
     }
-    static success({ data, message, statusCode, }) {
+    static success({ data, message, statusCode }) {
         return new ApiResponse(data, message, statusCode);
     }
-    static error({ message, statusCode, errors, }) {
+    static error({ message, statusCode, errors }) {
         return new ApiResponse(null, message, statusCode, errors);
     }
-    static unauthorized({ message, errors, }) {
+    static unauthorized({ message, errors }) {
         return new ApiResponse(null, message, 401, errors);
     }
-    static badRequest({ message, errors, }) {
+    static badRequest({ message, errors }) {
         return new ApiResponse(null, message, 400, errors);
     }
-    static notFound({ message, errors, }) {
+    static notFound({ message, errors }) {
         return new ApiResponse(null, message, 404, errors);
     }
-    static internalServerError({ message, errors, }) {
+    static internalServerError({ message, errors }) {
         return new ApiResponse(null, message, 500, errors);
     }
 }

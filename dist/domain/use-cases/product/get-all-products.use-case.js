@@ -6,8 +6,8 @@ class GetAllProductUseCase {
     constructor(productRepository) {
         this.productRepository = productRepository;
     }
-    exucute() {
-        return this.productRepository.getAll();
+    exucute(dto) {
+        return this.productRepository.getAll(dto);
     }
 }
 exports.GetAllProductUseCase = GetAllProductUseCase;

@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.productRepository = exports.ProductRepositoryImpl = void 0;
-const product_datasource_impl_1 = require("@infrastructure/datasource/product.datasource.impl");
+exports.ProductRepositoryImpl = void 0;
 class ProductRepositoryImpl {
     dataSource;
     constructor(dataSource) {
@@ -11,11 +10,39 @@ class ProductRepositoryImpl {
         const product = await this.dataSource.create(dto);
         return product;
     }
-    async getAll() {
-        const products = await this.dataSource.getAll();
+    async getAll(dto) {
+        const products = await this.dataSource.getAll(dto);
         return products;
+    }
+    async getById(id) {
+        const product = await this.dataSource.getById(id);
+        return product;
+    }
+    update(dto) {
+        const product = this.dataSource.update(dto);
+        return product;
+    }
+    async findByCode(code) {
+        const product = await this.dataSource.findByCode(code);
+        if (!product) {
+            return null;
+        }
+        return product;
+    }
+    async checkIfExists(params) {
+        const product = await this.dataSource.checkIfExists({
+            code: params.code,
+            id: params.id,
+        });
+        if (!product) {
+            return null;
+        }
+        return product;
+    }
+    async delete(id) {
+        const product = await this.dataSource.delete(id);
+        return product;
     }
 }
 exports.ProductRepositoryImpl = ProductRepositoryImpl;
-exports.productRepository = new ProductRepositoryImpl(product_datasource_impl_1.productDataSource);
 //# sourceMappingURL=product.repository.impl.js.map

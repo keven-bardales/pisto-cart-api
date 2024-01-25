@@ -1,17 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = exports.UserController = void 0;
+const jwt_adapter_1 = require("@src/config/jwt.adapter");
 const create_user_dto_1 = require("@src/domain/dtos/user/create-user.dto");
+const login_user_dto_1 = require("@src/domain/dtos/user/login-user.dto");
 const update_user_dto_1 = require("@src/domain/dtos/user/update-user.dto");
+const create_user_use_case_1 = require("@src/domain/use-cases/user/create-user.use-case");
 const getAll_users_use_case_1 = require("@src/domain/use-cases/user/getAll-users.use-case");
 const getbyId_user_use_case_1 = require("@src/domain/use-cases/user/getbyId-user.use-case");
+const login_user_use_case_1 = require("@src/domain/use-cases/user/login-user.use-case");
 const update_user_use_case_1 = require("@src/domain/use-cases/user/update-user.use-case");
 const response_1 = require("@src/domain/wrappers/response");
+const user_rol_repository_impl_1 = require("@src/infrastructure/repositories/user-rol.repository.impl");
 const user_repository_impl_1 = require("@src/infrastructure/repositories/user.repository.impl");
 class UserController {
     userRepository;
-    constructor(userRepository) {
+    roleRepository;
+    constructor(userRepository, roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
     getAll = (req, res, next) => {
         new getAll_users_use_case_1.GetAllUsersUseCase(this.userRepository)
@@ -48,24 +55,29 @@ class UserController {
         });
     };
     create = async (req, res, next) => {
-        try {
-            const createUserDto = create_user_dto_1.CreateUserDto.create(req.body);
-            const user = await this.userRepository.create(createUserDto);
+        const createUserDto = create_user_dto_1.CreateUserDto.create(req.body);
+        new create_user_use_case_1.CreateUserUseCase(this.userRepository, this.roleRepository)
+            .execute(createUserDto)
+            .then(async (user) => {
             if (!user) {
                 return res.status(400).json(response_1.ApiResponse.badRequest({
                     message: "Ha ocurrido un error al crear el usuario",
                     errors: ["Ha ocurrido un error al crear el usuario"],
                 }));
             }
+            const token = await jwt_adapter_1.JwtAdapter.generateToken({ id: user.id, rol: user.rol, fullName: user.fullName });
             return res.status(201).json(response_1.ApiResponse.success({
-                data: user,
+                data: {
+                    user,
+                    token,
+                },
                 message: "Usuario creado con exito",
                 statusCode: 201,
             }));
-        }
-        catch (error) {
+        })
+            .catch((error) => {
             next(error);
-        }
+        });
     };
     update = async (req, res, next) => {
         const updateUserDto = update_user_dto_1.UpdateUserDto.create(req.body);
@@ -74,7 +86,26 @@ class UserController {
             .then((user) => {
             return res.status(200).json(response_1.ApiResponse.success({
                 data: user,
-                message: "User updated successfully",
+                message: "Usuario actualizado con exito",
+                statusCode: 200,
+            }));
+        })
+            .catch((error) => {
+            next(error);
+        });
+    };
+    login = (req, res, next) => {
+        const loginDto = login_user_dto_1.LoginUserDto.create(req.body);
+        new login_user_use_case_1.LoginUserUseCase(this.userRepository)
+            .execute(loginDto)
+            .then(async (user) => {
+            const token = await jwt_adapter_1.JwtAdapter.generateToken({ id: user.id, rol: user.rol, fullName: user.fullName }, "8h");
+            return res.status(200).json(response_1.ApiResponse.success({
+                data: {
+                    user,
+                    token,
+                },
+                message: `Bienvenido ${user.fullName}`,
                 statusCode: 200,
             }));
         })
@@ -84,5 +115,5 @@ class UserController {
     };
 }
 exports.UserController = UserController;
-exports.userController = new UserController(user_repository_impl_1.userRepository);
+exports.userController = new UserController(user_repository_impl_1.userRepository, user_rol_repository_impl_1.userRolRepository);
 //# sourceMappingURL=controller.js.map

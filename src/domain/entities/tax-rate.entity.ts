@@ -6,10 +6,10 @@ export class TaxRateEntity {
     public id: number,
     public name: string,
     public rate: number,
-    public createdAt: Date,
-    public updatedAt: Date,
-    public cartDetails: CartDetailEntity[] = [],
-    public orderDetails: CartOrderDetailEntity[] = []
+    public createdAt: string,
+    public updatedAt: string,
+    public cartDetails?: CartDetailEntity[],
+    public orderDetails?: CartOrderDetailEntity[]
   ) {}
 
   static fromObject(object: any): TaxRateEntity {
@@ -19,16 +19,8 @@ export class TaxRateEntity {
       object.rate,
       object.createdAt,
       object.updatedAt,
-      object.cartDetail
-        ? object.cartDetails.map((detail: any) =>
-            CartDetailEntity.fromObject(detail)
-          )
-        : [],
-      object.orderDetails
-        ? object.orderDetail.map((detail: any) =>
-            CartOrderDetailEntity.fromObject(detail)
-          )
-        : []
+      object.cartDetail ? object.cartDetails.map((detail: any) => CartDetailEntity.fromObject(detail)) : null,
+      object.orderDetails ? object.orderDetail.map((detail: any) => CartOrderDetailEntity.fromObject(detail)) : null
     );
   }
 }

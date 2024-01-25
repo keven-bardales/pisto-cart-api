@@ -2,16 +2,17 @@ import { ProductEntity } from "@domain/entities/product.entity";
 
 export class ProductCategoryEntity {
   constructor(
-    public id: string,
+    public id: number,
     public categoryCode: string,
     public name: string,
     public categoryLevel: number,
-    public parentCategoryId: string | null,
-    public createdAt: Date,
-    public updatedAt: Date,
+    public parentCategoryId: number | null,
+    public createdAt: string,
+    public updatedAt: string,
     public description: string,
     public imageUrl: string,
-    public products: ProductEntity[] = []
+    public products?: ProductEntity[],
+    public parentCategory?: ProductCategoryEntity | null
   ) {}
 
   static fromObject(object: any): ProductCategoryEntity {
@@ -25,11 +26,8 @@ export class ProductCategoryEntity {
       object.updatedAt,
       object.description,
       object.imageUrl,
-      object.products
-        ? object.products.map((product: any) =>
-            ProductEntity.fromObject(product)
-          )
-        : []
+      object.products ? object.products.map((product: any) => ProductEntity.fromObject(product)) : null,
+      object.parentCategory ? ProductCategoryEntity.fromObject(object.parentCategory) : null
     );
   }
 }

@@ -13,6 +13,9 @@ class ProductStatusRepositoryImpl {
     getAll() {
         return this.dataSource.getAll();
     }
+    checkIfExists(params) {
+        return this.dataSource.checkIfExists(params);
+    }
 }
 exports.ProductStatusRepositoryImpl = ProductStatusRepositoryImpl;
 exports.productStatusRepository = new ProductStatusRepositoryImpl(product_status_datasource_impl_1.productStatusDataSource);
