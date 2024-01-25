@@ -12,15 +12,15 @@ export class ProductRoutes {
   static get routes() {
     const router = Router();
 
-    router.get(`${this.mainRoute}/getAll`, productController.getAll);
+    router.get(`${this.mainRoute}/getAll`, [authMiddleware], productController.getAll);
 
-    router.post(`${this.mainRoute}/create`, [validate(createProductSchema)], productController.create);
+    router.post(`${this.mainRoute}/create`, [validate(createProductSchema), authMiddleware], productController.create);
 
     router.get(`${this.mainRoute}/getById/:id`, [authMiddleware, validate(getByIdProductSchema)], productController.getById);
 
-    router.put(`${this.mainRoute}/update`, [validate(updateProductSchema)], productController.update);
+    router.put(`${this.mainRoute}/update`, [validate(updateProductSchema), authMiddleware], productController.update);
 
-    router.delete(`${this.mainRoute}/delete/:id`, productController.delete);
+    router.delete(`${this.mainRoute}/delete/:id`, [authMiddleware], productController.delete);
 
     return router;
   }
