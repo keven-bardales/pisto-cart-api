@@ -112,7 +112,11 @@ export class ProductController {
   };
 
   delete = (req: Request, res: Response, next: NextFunction) => {
-    const id = parseInt(req.params.id);
+    let id: any = req.params.id;
+
+    if (typeof req.params.id === "string") {
+      id = parseInt(req.params.id);
+    }
 
     new DeleteProductUseCase(this.productRepository)
       .execute(id)
