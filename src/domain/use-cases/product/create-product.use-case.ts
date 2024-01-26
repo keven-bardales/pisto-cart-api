@@ -13,7 +13,7 @@ export class CreateProductUseCase {
     private readonly productStatusRepository: ProductStatusRepository
   ) {}
 
-  async exucute(dto: CreateProductDto) {
+  async execute(dto: CreateProductDto) {
     const productExists = await this.productRepository.findByCode(dto.code);
 
     if (productExists) {

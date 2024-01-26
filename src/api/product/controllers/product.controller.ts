@@ -1,4 +1,5 @@
 import { ProductStatusDataSource } from "@src/domain/datasources/product-status.datasource";
+import { CreateProductDto } from "@src/domain/dtos/product/create-product.dto";
 import { UpdateProductDto } from "@src/domain/dtos/product/update-product.dto";
 import { PaginationDto } from "@src/domain/dtos/shared/pagination.dto";
 import { GeneralStatusRepository } from "@src/domain/repositories/general-status.repository";
@@ -59,8 +60,10 @@ export class ProductController {
   };
 
   public create = (req: Request, res: Response, next: NextFunction) => {
+    const dto = CreateProductDto.fromObject(req.body);
+
     new CreateProductUseCase(this.productRepository, this.generalStatusRepository, this.productCategoryRepository, this.productStatusRepository)
-      .exucute(req.body)
+      .execute(dto)
       .then((product) => {
         return res.status(201).json(
           ApiResponse.success({
@@ -109,7 +112,11 @@ export class ProductController {
   };
 
   delete = (req: Request, res: Response, next: NextFunction) => {
-    const id = parseInt(req.params.id);
+    let id: any = req.params.id;
+
+    if (typeof req.params.id === "string") {
+      id = parseInt(req.params.id);
+    }
 
     new DeleteProductUseCase(this.productRepository)
       .execute(id)
