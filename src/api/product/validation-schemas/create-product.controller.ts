@@ -63,11 +63,5 @@ export const createProductSchema = z.object({
       .int({
         message: "El stock debe ser un número entero",
       }),
-    generalStatusId: z
-      .number({
-        invalid_type_error: "El estado debe ser un número",
-        required_error: "El estado es requerido",
-      })
-      .min(1, "El estado debe ser mayor a 0"),
   }),
 });
